@@ -1,0 +1,143 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage{lmodern}
+\usepackage[scaled=0.98]{helvet}
+\usepackage{microtype}
+\usepackage{setspace}
+\usepackage{hyperref}
+\renewcommand{\familydefault}{\sfdefault}
+% for german language use babel option `ngerman`
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PDF SETTINGS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\hypersetup{
+ pdfauthor={Fabian Keßler},
+ pdftitle={Exposé: Investigating Task Granularity in Multi-Agent Systems for the Generative Creation of Multimodal Artifact Sets},
+ pdfsubject={Bachelor Thesis Exposé},
+ pdfkeywords={Not set}
+}
+\hypersetup{hidelinks} % hides boxes around hyperlinks uncomment this with ctrl+shift+7
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% BEGIN DOCUMENT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\setstretch{1.15}
+
+% Title Content (Replaces \include{titlepage})
+\begin{center}
+\Large\textbf{Exposé: Investigating Task Granularity in Multi-Agent Systems for the Generative Creation of Multimodal Artifact Sets}
+\end{center}
+\vspace{1em}
+
+\begin{tabbing}
+\textbf{Student:} \hspace{3cm} \= Fabian Keßler \\
+\textbf{Supervisor (JMU):} \> Prof. Dr. Sebastian von Mammen \\
+\textbf{Corporate Partner:} \> Henkel dx (Supervisor: Georg Boegerl) \\
+\textbf{Processing Period:} \> June 19 -- September 10, 2026 (12 weeks) \\
+\textbf{Thesis Language:} \> English
+\end{tabbing}
+\vspace{1em}
+
+\normalsize
+
+% Main Content (Replaces \include{chapter1/chapter}, etc.)
+\section*{1. Motivation \& Research Questions}
+The integration of Large Language Models (LLMs) into Multi-Agent Systems (MAS) enables the automated solution of complex, multi-step tasks, such as the generative creation of coherent, multimodal artifact sets (e.g., texts and images for marketing campaigns or narrative game assets) \cite{lin2025}. A core problem in designing such systems is choosing the optimal task granularity \cite{chen2026}. Current research shows that a too fine-grained division leads to an enormous communication overhead, which uneconomically increases latencies and API costs \cite{salim2026}. A monolithic approach is more resource-efficient but potentially delivers less precise or inconsistent results \cite{chen2026}. This thesis investigates this trade-off in a practical context.
+
+This trade-off leads to the following verifiable research questions:
+\begin{itemize}
+    \item \textbf{Output Quality:} How does the degree of granularity (monolithic vs. coarse-grained vs. fine-grained) influence the multimodal consistency and professional applicability of the generated artifact sets?
+    \item \textbf{System Efficiency:} In what ratio do end-to-end latency and token usage scale depending on the agentic network density?
+    \item \textbf{Cost-Benefit:} Which architecture offers the best compromise between operational efficiency and content coherence for industrial use?
+\end{itemize}
+
+\section*{2. Related Work}
+The thesis is situated at the intersection of Multi-Agent Systems and Procedural Content Generation (PCG):
+\begin{itemize}
+    \item \textbf{Task Granularity \& Complexity:} Recent studies demonstrate that the advantage of MAS over monolithic systems strongly depends on task complexity, with MAS only showing clear benefits in tasks requiring deep reasoning \cite{tang2025}. Large-scale evaluations (e.g., by Google and MIT) also show that agentic coordination overhead provides no qualitative added value beyond a certain threshold \cite{kim2025}.
+    \item \textbf{Communication Tax \& Efficiency:} The operational efficiency of LLM-MAS is increasingly coming into focus. Studies in agentic software engineering identify the so-called ``Communication Tax'', where redundant context exchange between agents often consumes extremely large amounts of tokens \cite{salim2026}.
+    \item \textbf{Multimodal Coherence:} In the creation of image-text plans, frameworks like MPlanner show how iterative feedback loops between text and image generation can be used to ensure cross-modal consistency \cite{lu2025}.
+    \item \textbf{Multi-Agent PCG \& Standardization:} Frameworks like \textit{UnrealLLM} demonstrate how complex generative tasks can be successfully modularized by distributing them among highly specialized role agents (e.g., scene analysts, asset managers, and node experts) to control Procedural Content Generation (PCG) systems. This directly relates to the impact of fine-grained task granularity on the generation of complex, structured 3D scenes \cite{tang_unreal_2025}.
+\end{itemize}
+
+\section*{3. Methodology}
+A software prototype will be implemented that generates complete artifact sets based on given marketing briefs from Henkel dx. The process is comparatively tested with three topologies:
+\begin{itemize}
+    \item \textbf{Monolithic:} A single LLM generates the complete set in one large, sequential run.
+    \item \textbf{Coarse-grained:} An orchestrator distributes macro-tasks to parallel, independent special agents (without interactive exchange).
+    \item \textbf{Fine-grained:} A network of highly specialized role agents refines results in iterative feedback loops, which will be strictly monitored for error propagation and context pressure \cite{kim2025}. The evaluation will explicitly account for task complexity dimensions (depth vs. width) \cite{tang2025}.
+\end{itemize}
+
+The evaluation combines quantitative and qualitative metrics:
+\begin{itemize}
+    \item \textbf{Quantitative:} Exact logging of End-to-End Latency and a strict breakdown of Token Usage into Input, Output, and Reasoning tokens to accurately isolate the Communication Tax \cite{salim2026}.
+    \item \textbf{Qualitative:} Algorithmic alignment via VLM-as-a-Judge pipelines \cite{ku2024} and Physics-Constrained Multimodal Data Evaluation (PCMDE) \cite{gupta2025} to assess fine-grained structural accuracy and instruction-driven consistency combined with a structured A/B blind review by domain experts at Henkel dx, using binary decision frameworks to minimize cognitive load and decision fatigue \cite{hitl_survey_2026}.
+\end{itemize}
+
+\section*{4. Agenda}
+\begin{itemize}
+    \item \textbf{Week 1-2 (June 19 - July 02): 1. Research} \\
+    Familiarization with LLM frameworks and definition of Henkel use cases.
+    \item \textbf{Week 3-6 (July 03 - July 30): 2. Implementation} \\
+    Development of the three architectures and integration of telemetry metrics.
+    \item \textbf{Week 7-9 (July 31 - Aug 20): 3. Evaluation} \\
+    Test runs, data aggregation, and execution of the expert blind review.
+    \item \textbf{Week 10-12 (Aug 21 - Sep 10): 4. Finalize Thesis} \\
+    Writing the thesis, evaluating the research questions, and formatting.
+\end{itemize}
+
+\appendix
+
+\begin{thebibliography}{10}
+
+\bibitem{lin2025}
+Y.-C. Lin \textit{et al.}, ``Creativity in LLM-based Multi-Agent Systems: A Survey,'' \textit{arXiv preprint arXiv:2505.21116}, 2025. [Online]. Available: \url{https://arxiv.org/abs/2505.21116}. [Accessed: Apr. 24, 2026].
+
+\bibitem{chen2026}
+Y. Chen \textit{et al.}, ``Beyond Monolithic Architectures: A Multi-Agent Search and Knowledge Optimization Framework for Agentic Search,'' \textit{arXiv preprint arXiv:2601.04703}, 2026. [Online]. Available: \url{https://arxiv.org/abs/2601.04703}. [Accessed: Apr. 24, 2026].
+
+\bibitem{salim2026}
+M. Salim \textit{et al.}, ``Tokenomics: Quantifying Where Tokens Are Used in Agentic Software Engineering,'' \textit{arXiv preprint arXiv:2601.14470}, 2026. [Online]. Available: \url{https://arxiv.org/abs/2601.14470}. [Accessed: Apr. 24, 2026].
+
+\bibitem{tang2025}
+B. Tang \textit{et al.}, ``On the Importance of Task Complexity in Evaluating LLM-Based Multi-Agent Systems,'' \textit{arXiv preprint arXiv:2510.04311}, 2025. [Online]. Available: \url{https://arxiv.org/abs/2510.04311}. [Accessed: Apr. 24, 2026].
+
+\bibitem{kim2025}
+Y. Kim \textit{et al.}, ``Towards a Science of Scaling Agent Systems,'' \textit{arXiv preprint arXiv:2512.08296}, 2025. [Online]. Available: \url{https://arxiv.org/abs/2512.08296}. [Accessed: Apr. 24, 2026].
+
+\bibitem{lu2025}
+X. Lu \textit{et al.}, ``Enhance Multimodal Consistency and Coherence for Text-Image Plan Generation,'' in \textit{Findings of the ACL: ACL 2025}, Vienna, Austria, Jul. 2025, pp. 23392--23409. [Online]. Available: \url{https://aclanthology.org/2025.findings-acl.1202.pdf}. [Accessed: Apr. 24, 2026].
+
+\bibitem{tang_unreal_2025}
+S. Tang \textit{et al.}, ``UnrealLLM: Towards Highly Controllable and Interactable 3D Scene Generation by LLM-powered Procedural Content Generation,'' in \textit{Findings of the ACL: ACL 2025}, Vienna, Austria, Jul. 2025, pp. 19417--19435. [Online]. Available: \url{https://aclanthology.org/2025.findings-acl.994.pdf}. [Accessed: Apr. 24, 2026].
+
+\bibitem{ku2024}
+M. Ku \textit{et al.}, ``VIEScore: Towards Explainable Metrics for Conditional Image Synthesis Evaluation,'' in \textit{Proc. 62nd Annual Meeting of the ACL (Volume 1: Long Papers)}, Bangkok, Thailand, Aug. 2024, pp. 12268--12290. [Online]. Available: \url{https://aclanthology.org/2024.acl-long.663/}. [Accessed: Apr. 24, 2026].
+
+\bibitem{gupta2025}
+K. D. Gupta \textit{et al.}, ``Physics-Based Benchmarking Metrics for Multimodal Synthetic Images,'' \textit{arXiv preprint arXiv:2511.15204}, 2025. [Online]. Available: \url{https://arxiv.org/abs/2511.15204}. [Accessed: Apr. 24, 2026].
+
+\bibitem{hitl_survey_2026}
+K.-P. Lazaros \textit{et al.}, ``Human-in-the-Loop Artificial Intelligence: A Systematic Review,'' \textit{MDPI}, vol. 28, no. 4, p. 377, 2026. [Online]. Available: \url{https://www.mdpi.com/1099-4300/28/4/377}. [Accessed: Apr. 24, 2026].
+
+\end{thebibliography}
+
+
+
+
+%table of figures
+%\clearpage
+%\listoffigures
+%\clearpage
+
+%empty page 
+% \thispagestyle{empty}
+% \cleardoublepage
+
+\end{document}

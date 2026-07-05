@@ -1,0 +1,117 @@
+%==============================================================================
+%  Bachelor Thesis — Fabian Keßler, JMU Würzburg, Games Engineering
+%  "Investigating Task Granularity in Multi-Agent Systems for the Generative
+%   Creation of Multimodal Artifact Sets"
+%
+%  Examiner: Prof. Dr. Sebastian von Mammen   |   Partner: Henkel dx
+%
+%  MIGRATION NOTE -------------------------------------------------------------
+%  The chair mandates the Markus-Feld JMU template (Overleaf,
+%  \documentclass{thesis}). That project must be opened/exported from Overleaf
+%  with a login, so this file is a faithful, self-contained reconstruction that
+%  compiles locally (report class + clean preamble + IEEEtran bibliography per
+%  the chair's IEEE-citation rule). To submit on the official template: copy the
+%  frontmatter/* and chapters/* files and refs.bib into the Overleaf project and
+%  reconcile the title page with the template's own title macros. Content is
+%  written to be template-agnostic.
+%==============================================================================
+\documentclass[12pt,a4paper,oneside]{report}
+
+% --- encoding & language ---
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{lmodern}
+
+% --- layout & typography ---
+\usepackage[a4paper,margin=2.5cm,bindingoffset=0.5cm]{geometry}
+\usepackage{microtype}
+\usepackage{setspace}
+\setstretch{1.15}
+\usepackage{csquotes}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+\usepackage{multirow}
+\usepackage{graphicx}
+\graphicspath{{figures/}}
+\usepackage{xcolor}
+\definecolor{jmured}{RGB}{193,0,42}
+
+% --- maths & misc ---
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{listings}
+
+% --- links & cross-refs ---
+\usepackage[hidelinks,pdfusetitle]{hyperref}
+\usepackage[noabbrev,capitalise]{cleveref}
+
+\hypersetup{
+  pdfauthor={Fabian Keßler},
+  pdftitle={Investigating Task Granularity in Multi-Agent Systems for the Generative Creation of Multimodal Artifact Sets},
+  pdfsubject={Bachelor Thesis},
+  pdfkeywords={multi-agent systems, task granularity, A2A protocol, multimodal generation, LLM, communication tax}
+}
+
+% --- code listing style (used in the implementation chapter) ---
+\lstset{
+  basicstyle=\ttfamily\footnotesize,
+  breaklines=true,
+  frame=single,
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{jmured},
+  commentstyle=\color{gray},
+  showstringspaces=false,
+  captionpos=b,
+}
+
+% --- convenience macros ---
+\newcommand{\thesistitle}{Investigating Task Granularity in Multi-Agent Systems for the Generative Creation of Multimodal Artifact Sets}
+% Single research question, canonical wording in concept/01-topologies.md:
+% whether splitting loses coherence and how much, whether the explicit
+% mechanisms restore it, at what cost, and which topology fits which use case.
+\newcommand{\rq}{\textbf{RQ}}
+% Topology shorthands
+\newcommand{\Tmono}{\textsc{Monolithic}}
+\newcommand{\Tcoarse}{\textsc{Coarse-grained}}
+\newcommand{\Tfine}{\textsc{Fine-grained}}
+
+\begin{document}
+
+% ---------------- front matter ----------------
+\pagenumbering{roman}
+\include{frontmatter/titlepage}
+\cleardoublepage
+\include{frontmatter/declaration}
+\cleardoublepage
+\include{frontmatter/abstract}
+\cleardoublepage
+\include{frontmatter/acknowledgements}
+\cleardoublepage
+
+\tableofcontents
+\cleardoublepage
+
+% ---------------- main matter ----------------
+\pagenumbering{arabic}
+\include{chapters/01_introduction}
+\include{chapters/02_background}
+\include{chapters/03_design}
+\include{chapters/04_implementation}
+\include{chapters/05_evaluation_method}
+\include{chapters/06_results}
+\include{chapters/07_discussion}
+\include{chapters/08_conclusion}
+
+% ---------------- bibliography (IEEE) ----------------
+\bibliographystyle{IEEEtran}
+\bibliography{refs}
+
+% ---------------- appendices ----------------
+\appendix
+\include{chapters/A_ai_usage}
+
+\end{document}

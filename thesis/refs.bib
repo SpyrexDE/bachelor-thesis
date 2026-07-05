@@ -1,0 +1,474 @@
+% BA core bibliography: 45 Kern-Quellen, jede gegen die Originalquelle verifiziert (Kern 24.6.2026; Self-Refine, Huang, zwei Reps-Paper 27.6.2026; Idea2Img und Belch & Belch 29.6.2026; Legge & Bigelow und TIQA 30.6.2026; Bouthillier MLSys 2021 verifiziert 1.7.2026, Autorenliste alvarado2025repetitions korrigiert; Tewel/ConsiStory 2.7.2026 gegen LaTeX-Quelltext und Crossref verifiziert: Eval mittelt pair-wise DreamSim-Similarity über jedes Bild-Set; Callison-Burch WMT07 2.7.2026 gegen PDF verifiziert: Fluency/Adequacy-Ratings hochkorreliert "distinction might be false" S.140, Ranking zuverlaessiger und schneller als 5-Punkt-Skalen, Empfehlung Skalen durch Ranking ersetzen; RankME und SPAQ 2.7.2026 gegen PDF+Crossref verifiziert: RankME Setup 2 = getrennte Erhebung senkt Kriterien-Korrelationen auf "very low levels", SPAQ Table 2 = Attribut-Scores vs. MOS SRCC 0.784-0.958; Anthropic Building Effective Agents 4.7.2026 gegen Webseite verifiziert: "orchestrator-workers" und "evaluator-optimizer" woertlich definiert, nicht peer-reviewed, dient nur als Beleg fuer Praktiker-Pattern-Namen; Plattform-Specs und Seed-Claims 4.7.2026 verifiziert: Meta Ads Guide = 4:5 empfohlen 1440x1800, Story 9:16 empfohlen 1440x2560, Safe Zone 14% oben / 35% unten / 6% seitlich (asymmetrisch, ALTE 1080x1350/1080x1920-Zahlen standen auf keiner lesbaren offiziellen Seite und wurden ersetzt), IG Graph API = Caption max 2200 Zeichen / 30 Hashtags woertlich, OpenAI Seed-Doku = "Determinism is not guaranteed", Anthropic Messages API = "even with temperature of 0.0, the results will not be fully deterministic", Blackwell-Abstract traegt Temperatur-0-mit-Seed-Variation woertlich).
+% Import in Zotero: File -> Import -> diese Datei. Sortieren danach in die Themen-Ordner.
+
+@misc{meta2026adsguide,
+  author       = {{Meta Platforms}},
+  title        = {Ads Guide: Instagram Feed and Instagram Stories specifications},
+  year         = {2026},
+  howpublished = {\url{https://www.facebook.com/business/ads-guide/}},
+  note         = {Official ad specs, accessed 2026-07-04. Feed image: ratio 4:5, recommended 1440x1800, maximum 30 hashtags. Story: 9:16, recommended 1440x2560, safe zone roughly 14\% top, 35\% bottom, 6\% per side}
+}
+
+@misc{meta2026igapi,
+  author       = {{Meta Platforms}},
+  title        = {Instagram Graph API: IG User Media reference},
+  year         = {2026},
+  howpublished = {\url{https://developers.facebook.com/docs/instagram-api/reference/ig-user/media}},
+  note         = {Caption limits: maximum 2200 characters, 30 hashtags, 20 mentions. Accessed 2026-07-04}
+}
+
+@misc{openai2026seed,
+  author       = {{OpenAI}},
+  title        = {Reproducible outputs with the seed parameter},
+  year         = {2026},
+  howpublished = {\url{https://developers.openai.com/cookbook/examples/reproducible_outputs_with_the_seed_parameter}},
+  note         = {Official developer documentation: seed is best effort, determinism is not guaranteed, system fingerprint monitors backend changes. Accessed 2026-07-04}
+}
+
+@misc{anthropic2026api,
+  author       = {{Anthropic}},
+  title        = {Messages API reference: temperature},
+  year         = {2026},
+  howpublished = {\url{https://platform.claude.com/docs/en/api/messages}},
+  note         = {States that even with temperature 0.0 results are not fully deterministic. Accessed 2026-07-04}
+}
+
+@misc{anthropic2024agents,
+  author       = {{Anthropic}},
+  title        = {Building Effective Agents},
+  year         = {2024},
+  howpublished = {\url{https://www.anthropic.com/engineering/building-effective-agents}},
+  note         = {Industry engineering guide, not peer-reviewed; defines the orchestrator-workers and evaluator-optimizer workflow patterns}
+}
+
+@misc{chen2026,
+  author = {Chen, Yiqun and others},
+  title  = {Beyond Monolithic Architectures: A Multi-Agent Search and Knowledge Optimization Framework for Agentic Search},
+  year   = {2026},
+  note   = {arXiv preprint arXiv:2601.04703},
+  eprint = {2601.04703},
+  archivePrefix = {arXiv},
+}
+
+@misc{tang2025complexity,
+  title        = {On the Importance of Task Complexity in Evaluating {LLM}-Based Multi-Agent Systems},
+  author       = {Tang, Bohan and Liang, Huidong and Jiang, Keyue and Dong, Xiaowen},
+  year         = {2025},
+  eprint       = {2510.04311},
+  archivePrefix = {arXiv},
+  primaryClass = {cs.AI},
+  doi          = {10.48550/arXiv.2510.04311},
+  note         = {arXiv preprint arXiv:2510.04311},
+  howpublished = {\url{https://arxiv.org/abs/2510.04311}}
+}
+
+@misc{kim2025,
+  author = {Kim, Yubin and others},
+  title  = {Towards a Science of Scaling Agent Systems},
+  year   = {2025},
+  note   = {arXiv preprint arXiv:2512.08296},
+  eprint = {2512.08296},
+  archivePrefix = {arXiv},
+}
+
+@inproceedings{cemri2025mast,
+  author    = {Cemri, Mert and Pan, Melissa Z. and Yang, Shuyi and Agrawal, Lakshya A. and Chopra, Bhavya and Tiwari, Rishabh and Keutzer, Kurt and Parameswaran, Aditya and Klein, Dan and Ramchandran, Kannan and Zaharia, Matei and Gonzalez, Joseph E. and Stoica, Ion},
+  title     = {Why Do Multi-Agent {LLM} Systems Fail?},
+  booktitle = {Advances in Neural Information Processing Systems 38 (NeurIPS 2025), Datasets and Benchmarks Track},
+  year      = {2025},
+  note      = {Spotlight. arXiv:2503.13657},
+  url       = {https://openreview.net/forum?id=fAjbYBmonr}
+}
+
+@inproceedings{guo2024llmma,
+  title     = {Large Language Model Based Multi-agents: A Survey of Progress and Challenges},
+  author    = {Guo, Taicheng and Chen, Xiuying and Wang, Yaqi and Chang, Ruidi and Pei, Shichao and Chawla, Nitesh V. and Wiest, Olaf and Zhang, Xiangliang},
+  booktitle = {Proceedings of the Thirty-Third International Joint Conference on Artificial Intelligence (IJCAI-24)},
+  pages     = {8048--8057},
+  year      = {2024},
+  note      = {Survey Track},
+  doi       = {10.24963/ijcai.2024/890},
+  url       = {https://www.ijcai.org/proceedings/2024/890}
+}
+
+@misc{lin2025,
+  author = {Lin, Yi-Cheng and others},
+  title  = {Creativity in {LLM}-based Multi-Agent Systems: A Survey},
+  year   = {2025},
+  note   = {arXiv preprint arXiv:2505.21116},
+  eprint = {2505.21116},
+  archivePrefix = {arXiv},
+}
+
+@misc{salim2026,
+  author = {Salim, Mohamad and others},
+  title  = {Tokenomics: Quantifying Where Tokens Are Used in Agentic Software Engineering},
+  year   = {2026},
+  note   = {arXiv preprint arXiv:2601.14470},
+  eprint = {2601.14470},
+  archivePrefix = {arXiv},
+}
+
+@inproceedings{zhang2025,
+  title     = {Cut the Crap: An Economical Communication Pipeline for {LLM}-based Multi-Agent Systems},
+  author    = {Zhang, Guibin and Yue, Yanwei and Li, Zhixun and Yun, Sukwon and Wan, Guancheng and Wang, Kun and Cheng, Dawei and Yu, Jeffrey Xu and Chen, Tianlong},
+  booktitle = {International Conference on Learning Representations (ICLR)},
+  year      = {2025},
+  note      = {arXiv:2410.02506},
+  url       = {https://openreview.net/forum?id=LkzuPorQ5L}
+}
+
+@article{yan2025beyond,
+  title        = {Beyond Self-Talk: A Communication-Centric Survey of LLM-Based Multi-Agent Systems},
+  author       = {Yan, Bingyu and Zhou, Zhibo and Zhang, Litian and Zhang, Lian and Zhou, Ziyi and Miao, Dezhuang and Li, Zhoujun and Li, Chaozhuo and Zhang, Xiaoming},
+  journal      = {arXiv preprint arXiv:2502.14321},
+  year         = {2025},
+  doi          = {10.48550/arXiv.2502.14321},
+  url          = {https://arxiv.org/abs/2502.14321}
+}
+
+@inproceedings{zeng2025s2mad,
+  title     = {S2-MAD: Breaking the Token Barrier to Enhance Multi-Agent Debate Efficiency},
+  author    = {Zeng, Yuting and Huang, Weizhe and Jiang, Lei and Liu, Tongxuan and Jin, Xitai and Tiana, Chen Tianying and Li, Jing and Xu, Xiaohua},
+  booktitle = {Proceedings of the 2025 Conference of the Nations of the Americas Chapter of the Association for Computational Linguistics: Human Language Technologies (Volume 1: Long Papers)},
+  month     = apr,
+  year      = {2025},
+  address   = {Albuquerque, New Mexico},
+  publisher = {Association for Computational Linguistics},
+  pages     = {9393--9408},
+  doi       = {10.18653/v1/2025.naacl-long.475},
+  url       = {https://aclanthology.org/2025.naacl-long.475/}
+}
+
+@inproceedings{lu2025textimageplan,
+  title     = {Enhance Multimodal Consistency and Coherence for Text-Image Plan Generation},
+  author    = {Lu, Xiaoxin and Zhang, Ranran Haoran and Zhang, Yusen and Zhang, Rui},
+  booktitle = {Findings of the Association for Computational Linguistics: ACL 2025},
+  year      = {2025},
+  pages     = {23392--23409},
+  address   = {Vienna, Austria},
+  publisher = {Association for Computational Linguistics},
+  doi       = {10.18653/v1/2025.findings-acl.1202},
+  url       = {https://aclanthology.org/2025.findings-acl.1202/}
+}
+
+@inproceedings{liu2024interleaved,
+  title     = {Holistic Evaluation for Interleaved Text-and-Image Generation},
+  author    = {Liu, Minqian and Xu, Zhiyang and Lin, Zihao and Ashby, Trevor and Rimchala, Joy and Zhang, Jiaxin and Huang, Lifu},
+  editor    = {Al-Onaizan, Yaser and Bansal, Mohit and Chen, Yun-Nung},
+  booktitle = {Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing},
+  month     = nov,
+  year      = {2024},
+  address   = {Miami, Florida, USA},
+  publisher = {Association for Computational Linguistics},
+  pages     = {22002--22016},
+  doi       = {10.18653/v1/2024.emnlp-main.1228},
+  url       = {https://aclanthology.org/2024.emnlp-main.1228/}
+}
+
+@inproceedings{ding2025muses,
+  author    = {Ding, Yanbo and Zhuang, Shaobin and Li, Kunchang and Yue, Zhengrong and Qiao, Yu and Wang, Yali},
+  title     = {{MUSES}: {3D}-Controllable Image Generation via Multi-Modal Agent Collaboration},
+  booktitle = {Proceedings of the AAAI Conference on Artificial Intelligence},
+  year      = {2025},
+  volume    = {39},
+  number    = {3},
+  pages     = {2753--2761},
+  doi       = {10.1609/aaai.v39i3.32280},
+  url       = {https://ojs.aaai.org/index.php/AAAI/article/view/32280}
+}
+
+@inproceedings{wu2024,
+  title     = {{AutoGen}: Enabling Next-Gen {LLM} Applications via Multi-Agent Conversation},
+  author    = {Wu, Qingyun and Bansal, Gagan and Zhang, Jieyu and Wu, Yiran and Li, Beibin and Zhu, Erkang and Jiang, Li and Zhang, Xiaoyun and Zhang, Shaokun and Liu, Jiale and Awadallah, Ahmed Hassan and White, Ryen W. and Burger, Doug and Wang, Chi},
+  booktitle = {First Conference on Language Modeling (COLM)},
+  year      = {2024},
+  note      = {arXiv:2308.08155},
+  url       = {https://openreview.net/forum?id=BAakY1hNKS}
+}
+
+@inproceedings{tangUnreal2025,
+  author    = {Tang, Songran and others},
+  title     = {{UnrealLLM}: Towards Highly Controllable and Interactable {3D} Scene Generation by {LLM}-powered Procedural Content Generation},
+  booktitle = {Findings of the Association for Computational Linguistics: ACL 2025},
+  year      = {2025},
+  pages     = {19417--19435},
+  address   = {Vienna, Austria},
+  publisher = {Association for Computational Linguistics},
+}
+
+@misc{arif2025pcmde,
+  title        = {Physics-Based Benchmarking Metrics for Multimodal Synthetic Images},
+  author       = {Gupta, Kishor Datta and Kamal, Marufa and Rahman, Md. Mahfuzur and Rahman, Fahad and Haque, Mohd Ariful and Siddique, Sunzida},
+  year         = {2025},
+  eprint       = {2511.15204},
+  archivePrefix= {arXiv},
+  primaryClass = {cs.CV},
+  howpublished = {arXiv preprint arXiv:2511.15204},
+  note         = {Available at \url{https://arxiv.org/abs/2511.15204}}
+}
+
+@inproceedings{ye2025justice,
+  author    = {Jiayi Ye and Yanbo Wang and Yue Huang and Dongping Chen and Qihui Zhang and Nuno Moniz and Tian Gao and Werner Geyer and Chao Huang and Pin-Yu Chen and Nitesh V. Chawla and Xiangliang Zhang},
+  title     = {Justice or Prejudice? {Q}uantifying Biases in {LLM}-as-a-{J}udge},
+  booktitle = {Proceedings of the 13th International Conference on Learning Representations (ICLR)},
+  year      = {2025},
+  note      = {arXiv:2410.02736},
+  url       = {https://openreview.net/forum?id=3GTtZFiajM}
+}
+
+@inproceedings{ku2024viescore,
+  title     = {{VIEScore}: Towards Explainable Metrics for Conditional Image Synthesis Evaluation},
+  author    = {Ku, Max and Jiang, Dongfu and Wei, Cong and Yue, Xiang and Chen, Wenhu},
+  booktitle = {Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)},
+  pages     = {12268--12290},
+  year      = {2024},
+  publisher = {Association for Computational Linguistics},
+  doi       = {10.18653/v1/2024.acl-long.663},
+  url       = {https://aclanthology.org/2024.acl-long.663/}
+}
+
+@inproceedings{lin2024vqascore,
+  author    = {Lin, Zhiqiu and Pathak, Deepak and Li, Baiqi and Li, Jiayao and Xia, Xide and Neubig, Graham and Zhang, Pengchuan and Ramanan, Deva},
+  title     = {Evaluating Text-to-Visual Generation with Image-to-Text Generation},
+  booktitle = {Computer Vision -- ECCV 2024},
+  series    = {Lecture Notes in Computer Science},
+  volume    = {15104},
+  pages     = {366--384},
+  year      = {2024},
+  publisher = {Springer},
+  doi       = {10.1007/978-3-031-72673-6_20}
+}
+
+@inproceedings{tripathi2025,
+  author    = {Tuhina Tripathi and Manya Wadhwa and Greg Durrett and Scott Niekum},
+  title     = {Pairwise or Pointwise? Evaluating Feedback Protocols for Bias in {LLM}-Based Evaluation},
+  booktitle = {Proceedings of the Conference on Language Modeling (COLM)},
+  year      = {2025},
+  note      = {arXiv:2504.14716},
+  url       = {https://arxiv.org/abs/2504.14716}
+}
+
+@inproceedings{novikova2018rankme,
+  author    = {Novikova, Jekaterina and Du{\v s}ek, Ond{\v r}ej and Rieser, Verena},
+  title     = {{RankME}: Reliable Human Ratings for Natural Language Generation},
+  booktitle = {Proceedings of the 2018 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies, Volume 2 (Short Papers)},
+  year      = {2018},
+  pages     = {72--78},
+  address   = {New Orleans, Louisiana},
+  publisher = {Association for Computational Linguistics},
+  doi       = {10.18653/v1/N18-2012},
+  url       = {https://aclanthology.org/N18-2012/}
+}
+
+@inproceedings{fang2020spaq,
+  author    = {Fang, Yuming and Zhu, Hanwei and Zeng, Yan and Ma, Kede and Wang, Zhou},
+  title     = {Perceptual Quality Assessment of Smartphone Photography},
+  booktitle = {2020 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+  year      = {2020},
+  pages     = {3674--3683},
+  publisher = {IEEE},
+  doi       = {10.1109/CVPR42600.2020.00373}
+}
+
+@inproceedings{callisonburch2007meta,
+  author    = {Callison-Burch, Chris and Fordyce, Cameron and Koehn, Philipp and Monz, Christof and Schroeder, Josh},
+  title     = {(Meta-) Evaluation of Machine Translation},
+  booktitle = {Proceedings of the Second Workshop on Statistical Machine Translation (WMT)},
+  year      = {2007},
+  pages     = {136--158},
+  address   = {Prague, Czech Republic},
+  publisher = {Association for Computational Linguistics},
+  url       = {https://aclanthology.org/W07-0718/}
+}
+
+@article{vanderlee2021,
+  author  = {van der Lee, Chris and Gatt, Albert and van Miltenburg, Emiel and Krahmer, Emiel},
+  title   = {Human evaluation of automatically generated text: Current trends and best practice guidelines},
+  journal = {Computer Speech \& Language},
+  volume  = {67},
+  pages   = {101151},
+  year    = {2021},
+  doi     = {10.1016/j.csl.2020.101151},
+  url     = {https://www.sciencedirect.com/science/article/pii/S088523082030084X}
+}
+
+@article{artstein2008,
+  author  = {Ron Artstein and Massimo Poesio},
+  title   = {Survey Article: Inter-Coder Agreement for Computational Linguistics},
+  journal = {Computational Linguistics},
+  year    = {2008},
+  volume  = {34},
+  number  = {4},
+  pages   = {555--596},
+  doi     = {10.1162/coli.07-034-R2},
+  url     = {https://aclanthology.org/J08-4004/},
+  publisher = {MIT Press}
+}
+
+@article{tomkins2017,
+  author  = {Tomkins, Andrew and Zhang, Min and Heavlin, William D.},
+  title   = {Reviewer bias in single- versus double-blind peer review},
+  journal = {Proceedings of the National Academy of Sciences},
+  year    = {2017},
+  volume  = {114},
+  number  = {48},
+  pages   = {12708--12713},
+  doi     = {10.1073/pnas.1707323114}
+}
+
+@article{hartmann2025,
+  author  = {Hartmann, Jochen and Exner, Yannick and Domdey, Samuel},
+  title   = {The power of generative marketing: Can generative {AI} create superhuman visual marketing content?},
+  journal = {International Journal of Research in Marketing},
+  year    = {2025},
+  volume  = {42},
+  number  = {1},
+  pages   = {13--31},
+  doi     = {10.1016/j.ijresmar.2024.09.002},
+  url     = {https://www.sciencedirect.com/science/article/pii/S0167811624000843}
+}
+
+@inproceedings{wang2025mimo,
+  author    = {Zhao Wang and Bowen Chen and Yotaro Shimose and Sota Moriyama and Heng Wang and Shingo Takamatsu},
+  title     = {Mirror in the Model: Ad Banner Image Generation via Reflective Multi-LLM and Multi-modal Agents},
+  booktitle = {Proceedings of the 2025 Conference on Empirical Methods in Natural Language Processing: Industry Track},
+  pages     = {246--266},
+  year      = {2025},
+  address   = {Suzhou, China},
+  publisher = {Association for Computational Linguistics},
+  doi       = {10.18653/v1/2025.emnlp-industry.17},
+  url       = {https://aclanthology.org/2025.emnlp-industry.17/}
+}
+
+@inproceedings{lin2023,
+  author    = {Lin, Jinpeng and Zhou, Min and Ma, Ye and Gao, Yifan and Fei, Chenxi and Chen, Yangjian and Yu, Zhang and Ge, Tiezheng},
+  title     = {{AutoPoster}: A Highly Automatic and Content-aware Design System for Advertising Poster Generation},
+  booktitle = {Proceedings of the 31st ACM International Conference on Multimedia (MM '23)},
+  year      = {2023},
+  pages     = {1250--1260},
+  publisher = {Association for Computing Machinery},
+  address   = {New York, NY, USA},
+  doi       = {10.1145/3581783.3611930},
+  url       = {https://dl.acm.org/doi/10.1145/3581783.3611930}
+}
+
+@misc{wang2025diver,
+  title        = {Beyond Quality: Unlocking Diversity in Ad Headline Generation with Large Language Models},
+  author       = {Wang, Chang and Yan, Siyu and Yuan, Depeng and Chen, Yuqi and Huang, Yanhua and Zheng, Yuanhang and Li, Shuhao and Zhang, Yinqi and Chen, Kedi and Zhu, Mingrui and Xu, Ruiwen},
+  year         = {2025},
+  eprint       = {2508.18739},
+  archivePrefix= {arXiv},
+  primaryClass = {cs.CL},
+  doi          = {10.48550/arXiv.2508.18739},
+  howpublished = {arXiv preprint arXiv:2508.18739},
+  note         = {\url{https://arxiv.org/abs/2508.18739}}
+}
+
+@inproceedings{madaan2023selfrefine,
+  title     = {Self-Refine: Iterative Refinement with Self-Feedback},
+  author    = {Madaan, Aman and Tandon, Niket and Gupta, Prakhar and Hallinan, Skyler and Gao, Luyu and Wiegreffe, Sarah and Alon, Uri and Dziri, Nouha and Prabhumoye, Shrimai and Yang, Yiming and Welleck, Sean and Majumder, Bodhisattwa Prasad and Gupta, Shashank and Yazdanbakhsh, Amir and Clark, Peter},
+  booktitle = {Advances in Neural Information Processing Systems 36 (NeurIPS 2023)},
+  year      = {2023},
+  note      = {arXiv:2303.17651},
+  doi       = {10.48550/arXiv.2303.17651},
+  url       = {https://arxiv.org/abs/2303.17651}
+}
+
+@inproceedings{huang2023selfcorrect,
+  title     = {Large Language Models Cannot Self-Correct Reasoning Yet},
+  author    = {Huang, Jie and Chen, Xinyun and Mishra, Swaroop and Zheng, Huaixiu Steven and Yu, Adams Wei and Song, Xinying and Zhou, Denny},
+  booktitle = {Proceedings of the 12th International Conference on Learning Representations (ICLR)},
+  year      = {2024},
+  note      = {arXiv:2310.01798},
+  doi       = {10.48550/arXiv.2310.01798},
+  url       = {https://arxiv.org/abs/2310.01798}
+}
+
+@misc{alvarado2025repetitions,
+  title        = {Do Repetitions Matter? Strengthening Reliability in {LLM} Evaluations},
+  author       = {Miguel Angel Alvarado Gonzalez and Michelle Bruno Hernandez and Miguel Angel Peñaloza Perez and Bruno Lopez Orozco and Jesus Tadeo Cruz Soto and Sandra Malagon},
+  year         = {2025},
+  eprint       = {2509.24086},
+  archivePrefix= {arXiv},
+  primaryClass = {cs.CL},
+  doi          = {10.48550/arXiv.2509.24086},
+  note         = {arXiv:2509.24086},
+  url          = {https://arxiv.org/abs/2509.24086}
+}
+
+@misc{blackwell2024reproducible,
+  title        = {Towards Reproducible {LLM} Evaluation: Quantifying Uncertainty in {LLM} Benchmark Scores},
+  author       = {Blackwell, Robert E. and Barry, Jon and Cohn, Anthony G.},
+  year         = {2024},
+  eprint       = {2410.03492},
+  archivePrefix= {arXiv},
+  doi          = {10.48550/arXiv.2410.03492},
+  note         = {arXiv:2410.03492},
+  url          = {https://arxiv.org/abs/2410.03492}
+}
+
+@inproceedings{bouthillier2021variance,
+  title     = {Accounting for Variance in Machine Learning Benchmarks},
+  author    = {Bouthillier, Xavier and Delaunay, Pierre and Bronzi, Mirko and Trofimov, Assya and Nichyporuk, Brennan and Szeto, Justin and Sepah, Naz and Raff, Edward and Madan, Kanika and Voleti, Vikram and Ebrahimi Kahou, Samira and Michalski, Vincent and Serdyuk, Dmitriy and Arbel, Tal and Pal, Chris and Varoquaux, Ga{\"e}l and Vincent, Pascal},
+  booktitle = {Proceedings of Machine Learning and Systems 3 (MLSys 2021)},
+  year      = {2021},
+  note      = {arXiv:2103.03098},
+  url       = {https://arxiv.org/abs/2103.03098}
+}
+
+@article{tewel2024consistory,
+  author  = {Tewel, Yoad and Kaduri, Omri and Gal, Rinon and Kasten, Yoni and Wolf, Lior and Chechik, Gal and Atzmon, Yuval},
+  title   = {Training-Free Consistent Text-to-Image Generation},
+  journal = {ACM Transactions on Graphics},
+  volume  = {43},
+  number  = {4},
+  pages   = {1--18},
+  year    = {2024},
+  note    = {ConsiStory. arXiv:2402.03286},
+  doi     = {10.1145/3658157},
+  url     = {https://dl.acm.org/doi/10.1145/3658157}
+}
+
+@inproceedings{yang2024idea2img,
+  title     = {Idea2Img: Iterative Self-Refinement with {GPT-4V(ision)} for Automatic Image Design and Generation},
+  author    = {Yang, Zhengyuan and Wang, Jianfeng and Li, Linjie and Lin, Kevin and Lin, Chung-Ching and Liu, Zicheng and Wang, Lijuan},
+  booktitle = {Computer Vision -- ECCV 2024},
+  series    = {Lecture Notes in Computer Science},
+  year      = {2024},
+  note      = {arXiv:2310.08541},
+  doi       = {10.1007/978-3-031-72920-1_10},
+  url       = {https://arxiv.org/abs/2310.08541}
+}
+
+@book{belch2021advertising,
+  author    = {Belch, George E. and Belch, Michael A.},
+  title     = {Advertising and Promotion: An Integrated Marketing Communications Perspective},
+  edition   = {12th},
+  year      = {2021},
+  publisher = {McGraw Hill},
+  isbn      = {9781260259315}
+}
+
+@article{legge2011printsize,
+  author  = {Legge, Gordon E. and Bigelow, Charles A.},
+  title   = {Does print size matter for reading? A review of findings from vision science and typography},
+  journal = {Journal of Vision},
+  year    = {2011},
+  volume  = {11},
+  number  = {5},
+  pages   = {8},
+  note    = {PMID 21828237},
+  doi     = {10.1167/11.5.8}
+}
+
+@misc{koltsov2026tiqa,
+  title        = {TIQA: Human-Aligned Perceptual Text Quality Assessment in Generated Images},
+  author       = {Koltsov, Kirill and Gushchin, Aleksandr and Antsiferova, Anastasia and Vatolin, Dmitriy},
+  year         = {2026},
+  eprint       = {2603.07119},
+  archivePrefix= {arXiv},
+  doi          = {10.48550/arXiv.2603.07119},
+  note         = {arXiv:2603.07119},
+  url          = {https://arxiv.org/abs/2603.07119}
+}

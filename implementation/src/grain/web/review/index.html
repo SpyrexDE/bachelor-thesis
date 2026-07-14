@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Campaign review</title>
+<script>
+  document.documentElement.dataset.theme = localStorage.getItem("grain-theme")
+    ?? (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+</script>
+<link rel="stylesheet" href="/ui.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">Campaign review</div>
+  <span class="muted small" id="session-label"></span>
+  <div class="topbar-end" id="topbar-end"></div>
+</header>
+<main class="rater-shell" id="rater"></main>
+<script type="module" src="/review/rater.js"></script>
+</body>
+</html>

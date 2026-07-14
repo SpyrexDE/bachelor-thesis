@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>grain — experiment console</title>
+<script>
+  document.documentElement.dataset.theme = localStorage.getItem("grain-theme")
+    ?? (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+</script>
+<link rel="stylesheet" href="/ui.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><a href="#/matrix" style="color:inherit">grain</a>
+    <span class="badge plain" id="provider-badge" title="Model provider (from /health)">…</span></div>
+  <nav id="nav">
+    <a href="#/matrix">Matrix</a>
+    <a href="#/runs">Runs</a>
+    <a href="#/review">Review</a>
+    <a href="#/analysis">Analysis</a>
+  </nav>
+  <div class="topbar-end" id="topbar-end"></div>
+</header>
+<main id="view"></main>
+<script type="module" src="/app.js"></script>
+</body>
+</html>

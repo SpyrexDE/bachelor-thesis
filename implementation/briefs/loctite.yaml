@@ -1,0 +1,34 @@
+# Illustrative fixture for the study, not official Henkel copy (docs/decisions.md D8).
+id: loctite
+brand: Loctite
+product: Loctite Super Glue Ultra Gel
+problem: >-
+  DIYers and craftsmen reach for screws or two-component epoxy on demanding
+  repairs because they do not trust an instant adhesive to hold under real load.
+objectives: >-
+  Establish Ultra Gel as the fast fix for demanding repairs by making its
+  strength concrete and credible.
+audience: >-
+  DIY enthusiasts and professional craftsmen, 30 to 60, pragmatic buyers who
+  research before purchase and punish products that fail on the job.
+insight: >-
+  A failed repair costs a weekend and their pride; they pay for proven strength,
+  not for promises.
+key_benefit: Instant repairs that hold up to 250 kg on a single square centimetre.
+reason_to_believe: >-
+  Rubber-infused gel formula, load rating verified under DIN-standard shear
+  tests; resists impact, vibration, and moisture.
+tone: No-nonsense, technical, dry; respect the user's competence, no hype.
+deliverables: >-
+  One coherent campaign across an Instagram post (4:5 image plus caption), a
+  vertical story key visual (9:16), and a 300x250 display banner.
+success_measures: >-
+  Consideration among trade buyers and repeat purchase rate, tied to the trust
+  objective.
+mandatories:
+  required_claims:
+    - Holds up to 250 kg
+  prohibited_wording:
+    - unbreakable
+    - indestructible
+    - holds anything

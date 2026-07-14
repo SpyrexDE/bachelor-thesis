@@ -1,0 +1,35 @@
+# Illustrative fixture for the study, not official Henkel copy (docs/decisions.md D8).
+id: persil
+brand: Persil
+product: Persil Deep Clean liquid detergent
+problem: >-
+  Households wash at low temperature to save energy but doubt that a cold wash
+  gets clothes properly clean, so they fall back to 40 degrees for anything
+  visibly stained.
+objectives: >-
+  Build awareness that Persil removes stains fully at 20 degrees, and shift the
+  perception that cold washing means compromising on cleanliness.
+audience: >-
+  Eco-conscious families, 25 to 45, price-aware but brand-loyal, who run four or
+  more loads a week and feel guilty about energy use.
+insight: >-
+  People do not want to choose between clean laundry and a clean conscience;
+  they already wash cold and want permission to trust it.
+key_benefit: Full stain removal at 20 degrees, no compromise.
+reason_to_believe: >-
+  Enzyme-based Deep Clean formula, stain performance verified across 100
+  everyday stain types in independent lab tests.
+tone: Confident, warm, everyday; reassuring rather than scientific.
+deliverables: >-
+  One coherent campaign across an Instagram post (4:5 image plus caption), a
+  vertical story key visual (9:16), and a 300x250 display banner.
+success_measures: >-
+  Unaided recall of the 20-degree claim and click-through to the product page,
+  tied to the awareness objective.
+mandatories:
+  required_claims:
+    - Deep Clean at 20 degrees
+  prohibited_wording:
+    - germ-free
+    - antibacterial
+    - whiter than white

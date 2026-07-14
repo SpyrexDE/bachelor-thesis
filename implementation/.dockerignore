@@ -1,0 +1,10 @@
+data/
+docs/
+tests/
+.venv/
+.pytest_cache/
+__pycache__/
+*.pyc
+poetry.lock
+Dockerfile
+docker-compose.yml

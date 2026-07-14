@@ -1,0 +1,18 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "grain-web",
+      "runtimeExecutable": ".venv/bin/uvicorn",
+      "runtimeArgs": [
+        "--factory",
+        "grain.api.app:create_app",
+        "--host",
+        "127.0.0.1",
+        "--port",
+        "8001"
+      ],
+      "port": 8001
+    }
+  ]
+}

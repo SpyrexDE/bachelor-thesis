@@ -271,21 +271,6 @@ a.chip:focus-visible { outline-offset: 2px; }
 .progress { height: 6px; border-radius: 3px; background: var(--line); overflow: hidden; flex: 1; }
 .progress > div { height: 100%; background: var(--accent); transition: width 0.3s; }
 
-/* Artifact display (rater UI; the console uses the cockpit stage below) */
-.artifact-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-.artifact-card { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--panel); }
-.artifact-card .frame {
-  background: var(--frame);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 240px;
-  cursor: zoom-in;
-}
-.artifact-card img { max-width: 100%; max-height: 100%; display: block; }
-.artifact-card .meta { padding: 8px 10px; border-top: 1px solid var(--line); }
-.caption { white-space: pre-wrap; font-size: 12.5px; color: var(--ink); max-height: 110px; overflow: auto; }
-
 .lightbox {
   position: fixed;
   inset: 0;
@@ -296,10 +281,7 @@ a.chip:focus-visible { outline-offset: 2px; }
   z-index: 50;
   cursor: zoom-out;
 }
-.lightbox img { max-width: 92vw; max-height: 92vh; }
-.lightbox-figure { display: flex; flex-direction: column; align-items: center; gap: 14px; max-width: 92vw; max-height: 92vh; cursor: default; }
-.lightbox-figure img { max-height: 76vh; object-fit: contain; border-radius: 6px; box-shadow: 0 10px 40px rgba(0,0,0,.5); }
-.lightbox-caption { max-width: min(680px, 92vw); font: 400 14px/1.55 system-ui, sans-serif; color: #f2f2f4; text-align: center; }
+.lightbox img { max-width: 92vw; max-height: 90vh; border-radius: 6px; box-shadow: 0 10px 40px rgba(0,0,0,.5); cursor: default; }
 .lightbox-close {
   position: absolute;
   top: 14px;
@@ -420,7 +402,6 @@ a .icon { vertical-align: -2px; }
 .rv-frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; display: block; }
 .rv-zoom { position: absolute; inset: 0; margin: auto; width: fit-content; height: fit-content; display: inline-flex; align-items: center; gap: 7px; padding: 9px 14px; border-radius: 9px; background: rgba(14,16,20,.74); color: #fff; border: 1px solid rgba(255,255,255,.28); font-size: 13px; font-weight: 600; opacity: 0; transition: opacity .12s ease; cursor: zoom-in; }
 .rv-frame:hover .rv-zoom { opacity: 1; }
-.rv-cap { font-size: 11.5px; color: var(--muted); line-height: 1.4; margin-top: 5px; }
 
 .rv-kbd { font: 600 12px/1 var(--mono); border: 1px solid var(--muted); border-radius: 5px; padding: 3px 6px; min-width: 16px; text-align: center; color: var(--muted); display: inline-block; }
 
@@ -428,7 +409,6 @@ a .icon { vertical-align: -2px; }
 .rv-rate { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
 .rv-rate-arts { display: flex; gap: 14px; align-items: flex-start; flex-wrap: wrap; }
 .rv-rate-arts .rv-frame { height: clamp(120px, 19vh, 210px); }
-.rv-rate-arts .rv-cap { max-width: 240px; }
 .rv-pillars { display: flex; flex-direction: column; }
 .rv-pillar { padding: 13px 0; border-bottom: 1px solid var(--line); }
 .rv-pillar:last-child { border-bottom: 0; }
@@ -523,18 +503,6 @@ h1 { letter-spacing: -0.01em; }
 .repnav .lbl { color: var(--muted); font-size: 11.5px; margin-right: 3px; }
 .supersede { color: var(--warn); font-size: 12px; }
 
-/* --- Artifact card: spec verdict overlay + tidy meta --- */
-.artifact-card { transition: box-shadow 0.12s ease; }
-.artifact-card:hover { box-shadow: var(--shadow); }
-.artifact-card .frame { height: 230px; position: relative; }
-.artifact-card .frame .enlarge { position: absolute; right: 8px; bottom: 8px; opacity: 0; transition: opacity 0.12s ease;
-  background: rgba(20,20,20,0.6); color: #fff; border-radius: 6px; padding: 4px; display: inline-flex; }
-.artifact-card .frame:hover .enlarge { opacity: 1; }
-.spec-flag { position: absolute; left: 8px; top: 8px; display: inline-flex; align-items: center; gap: 4px;
-  background: var(--bad); color: #fff; font-size: 11px; font-weight: 700; padding: 3px 7px; border-radius: 20px; box-shadow: var(--shadow); }
-.spec-ok { position: absolute; left: 8px; top: 8px; display: inline-flex; width: 22px; height: 22px; align-items: center; justify-content: center;
-  background: var(--ok); color: #fff; border-radius: 50%; box-shadow: var(--shadow); }
-.artifact-card .badges { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
 .mini-badge { font-size: 11px; font-weight: 600; padding: 1px 7px; border-radius: 20px; background: var(--neutral-soft); color: var(--muted); white-space: nowrap; }
 .mini-badge.good { background: var(--ok-soft); color: var(--ok); }
 .mini-badge.bad { background: var(--bad-soft); color: var(--bad); }
@@ -716,7 +684,7 @@ main.cockpit { max-width: 1680px; min-height: calc(100dvh - var(--topbar-h)); pa
   box-shadow: 0 0 0 2px var(--accent-soft);
 }
 /* Scope labels: the panel carries an "Artifact" chip; the set section below
-   gets a matching caption once a drill-down is open, so neither is mistaken
+   gets a matching label once a drill-down is open, so neither is mistaken
    for the other. */
 .rd-panel-head .scope-tag,
 .rail-scope {
@@ -729,7 +697,6 @@ main.cockpit { max-width: 1680px; min-height: calc(100dvh - var(--topbar-h)); pa
 .rd-panel-head .t { font-weight: 650; font-size: 13.5px; display: inline-flex; gap: 7px; align-items: center; }
 .rd-panel-head .x { margin-left: auto; padding: 3px 7px; color: var(--muted); border: none; background: transparent; }
 .rd-panel-head .x:hover { color: var(--ink); background: var(--hover); border: none; }
-.cap-hd { font-size: 11.5px; color: var(--muted); font-weight: 600; margin-top: 12px; }
 
 /* Round scrubber (segmented; dot = delivered round) */
 .rseg { display: inline-flex; border: 1px solid var(--line); border-radius: 7px; overflow: hidden; }
@@ -775,7 +742,6 @@ main.cockpit { max-width: 1680px; min-height: calc(100dvh - var(--topbar-h)); pa
 .sub10 .bar span { display: block; height: 100%; border-radius: 3px; }
 .sub10 .val { text-align: right; font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums; }
 .rationale { font-size: 11.5px; color: var(--muted); margin: 0 0 6px; padding-left: 0; }
-.rd-caption { font-size: 12.5px; white-space: pre-wrap; overflow: auto; background: var(--bg); border: 1px solid var(--line); border-radius: 7px; padding: 8px 10px; margin-top: 6px; }
 
 /* Drill drawer: execution & rounds live here, not in the scroll flow */
 .rd-drawer { flex: 0 0 auto; display: flex; flex-direction: column; min-height: 0; padding: 8px 14px; }

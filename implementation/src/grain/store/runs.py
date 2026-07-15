@@ -66,11 +66,11 @@ def list_calls(conn: sqlite3.Connection, run_id: str) -> list[sqlite3.Row]:
 
 
 def insert_artifact(conn: sqlite3.Connection, run_id: str, platform: str, round_: int,
-                    is_final: bool, image_path: str, caption: str | None) -> None:
+                    is_final: bool, image_path: str) -> None:
     conn.execute(
-        """INSERT INTO artifacts (run_id, platform, round, is_final, image_path, caption)
-           VALUES (?, ?, ?, ?, ?, ?)""",
-        (run_id, platform, round_, int(is_final), image_path, caption),
+        """INSERT INTO artifacts (run_id, platform, round, is_final, image_path)
+           VALUES (?, ?, ?, ?, ?)""",
+        (run_id, platform, round_, int(is_final), image_path),
     )
 
 

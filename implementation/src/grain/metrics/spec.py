@@ -1,7 +1,7 @@
 """Spec compliance: the one quality metric checked in code, not by an LLM
 (concept/03). Only what a producer can actually get wrong is scored: required
-claims, prohibited wording, story safe zone and readability, caption limits.
-Rendered text is read via OCR."""
+claims, prohibited wording, story safe zone and readability. Rendered text is
+read via OCR."""
 
 import re
 from pathlib import Path
@@ -65,11 +65,10 @@ def claim_present(claim: str, artifact_tokens: set[str]) -> bool:
     return bool(wanted) and len(wanted & artifact_tokens) / len(wanted) >= 0.8
 
 
-def check_artifact(brief: Brief, spec: PlatformSpec, image_path: Path,
-                   caption: str | None) -> list[dict]:
+def check_artifact(brief: Brief, spec: PlatformSpec, image_path: Path) -> list[dict]:
     words = [w for w in ocr_words(image_path) if w["conf"] >= OCR_CONFIDENCE]
     ocr_text = " ".join(w["text"] for w in words)
-    full_text = normalise(f"{caption or ''} {ocr_text}")
+    full_text = normalise(ocr_text)
     artifact_tokens = set(full_text.split())
 
     checks: list[dict] = []
@@ -82,20 +81,6 @@ def check_artifact(brief: Brief, spec: PlatformSpec, image_path: Path,
         checks.append({
             "check": f'prohibited wording "{phrase}"',
             "passed": normalise(phrase) not in full_text,
-        })
-
-    if spec.has_caption:
-        length = len(caption or "")
-        checks.append({
-            "check": f"caption within {spec.caption_max_chars} characters",
-            "passed": caption is not None and length <= spec.caption_max_chars,
-            "note": f"{length} characters",
-        })
-        hashtag_count = len(re.findall(r"#\w+", caption or ""))
-        checks.append({
-            "check": f"at most {spec.hashtag_max} hashtags",
-            "passed": hashtag_count <= spec.hashtag_max,
-            "note": f"{hashtag_count} hashtags",
         })
 
     if spec.safe_zone is not None:

@@ -10,11 +10,11 @@ from grain.providers.base import ChatRequest, Provider, parse_json_block
 
 
 def score_set(provider: Provider, brief: Brief, images: dict[str, Path],
-              captions: dict[str, str | None], run_seed: int, seed_key: str) -> dict:
+              run_seed: int, seed_key: str) -> dict:
     seed = call_seed(run_seed, seed_key)
     order = judge_order(seed)
     response = provider.chat(ChatRequest(
-        prompt=coherence_prompt(brief, captions, order),
+        prompt=coherence_prompt(brief, order),
         role="judge_coherence",
         seed=seed,
         images=tuple(images[pid] for pid in order),

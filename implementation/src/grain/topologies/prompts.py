@@ -14,8 +14,7 @@ PRODUCER_TASK = (
     "Produce the artifact for your platform. Respond as fenced JSON with an "
     '"image_prompt" (a complete instruction for the image model: palette with two '
     "hex values, motif, any on-image text in double quotes, style, brand block, "
-    'layout) and a "caption" (null if the platform has no caption). Respect the '
-    "platform limits and the brief's mandatories."
+    "layout). Respect the platform limits and the brief's mandatories."
 )
 
 MONOLITHIC_TASK = (
@@ -23,8 +22,7 @@ MONOLITHIC_TASK = (
     'by platform id ("instagram", "story", "banner"), each entry with an '
     '"image_prompt" (a complete instruction for the image model: palette with two '
     "hex values, motif, any on-image text in double quotes, style, brand block, "
-    'layout) and a "caption" (null if the platform has no caption). Respect the '
-    "platform limits and the brief's mandatories."
+    "layout). Respect the platform limits and the brief's mandatories."
 )
 
 ORCHESTRATOR_TASK = (
@@ -46,14 +44,7 @@ CRITIC_TASK = (
 
 
 def platform_block(spec: PlatformSpec) -> str:
-    lines = [f"{spec.label}. Image {spec.width}x{spec.height}."]
-    if spec.has_caption:
-        lines.append(
-            f"Caption up to {spec.caption_max_chars} characters and up to "
-            f"{spec.hashtag_max} hashtags."
-        )
-    else:
-        lines.append("No caption; all copy lives in the image.")
+    lines = [f"{spec.label}. Image {spec.width}x{spec.height}. All copy lives in the image."]
     if spec.safe_zone is not None:
         zone = spec.safe_zone
         lines.append(
@@ -99,21 +90,15 @@ def orchestrator_prompt(brief: Brief) -> str:
     ])
 
 
-def artifacts_block(captions: dict[str, str | None]) -> str:
-    lines = []
-    for spec in PLATFORMS:
-        if captions.get(spec.id):
-            lines.append(f"{spec.label} caption:\n{captions[spec.id]}\n")
-        else:
-            lines.append(f"{spec.label}: no caption.\n")
-    return "\n".join(lines).strip()
+def artifacts_block() -> str:
+    return "\n".join(f"{spec.label}." for spec in PLATFORMS)
 
 
-def critic_prompt(brief: Brief, concept: str, captions: dict[str, str | None]) -> str:
+def critic_prompt(brief: Brief, concept: str) -> str:
     return "\n\n".join([
         "You are the campaign critic.",
         "## Brief\n" + brief.as_text(),
         "## Shared creative concept\n" + concept,
-        "## Artifacts\n" + artifacts_block(captions),
+        "## Artifacts\n" + artifacts_block(),
         "## Task\n" + CRITIC_TASK,
     ])

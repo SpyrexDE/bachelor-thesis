@@ -61,7 +61,6 @@ def _persist(conn, data_dir: Path, run_id: str, result: RunResult) -> None:
                 conn, run_id, pid, round_,
                 is_final=False,
                 image_path=draft.image_path.relative_to(data_dir).as_posix(),
-                caption=draft.caption,
             )
     run_store.mark_final_round(conn, run_id, outcome.final_round)
 

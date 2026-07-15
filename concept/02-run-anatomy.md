@@ -18,13 +18,13 @@ Creative-brief elements, verbatim from Belch & Belch, *Advertising and Promotion
 - _Mandatories_: brand and legal/compliance constraints (mandatory claims, prohibited wording). A standard creative-brief element (AMA Creative Brief Template), outside Belch's nine.
 
 ## Artifact set (output)
-Each artifact is one integrated creative from the image model (text, layout, and branding in the image, like a real ad). Each follows the real platform specs: enforced limits (aspect-ratio range, caption length, file size) plus the platform's recommended resolutions:
+Each artifact is one integrated creative from the image model (text, layout, and branding in the image, like a real ad). Each follows the real platform specs: enforced limits (aspect-ratio range, file size) plus the platform's recommended resolutions:
 
-- **Instagram post**: 4:5 image, recommended 1440x1800 (Meta Ads Guide), plus a separate caption (up to 2200 characters and 30 hashtags; Instagram Graph API limits); the image itself may also carry text.
+- **Instagram post**: 4:5 image, recommended 1440x1800 (Meta Ads Guide); the copy is rendered into the image.
 - **Vertical story/Reel key visual**: 9:16 full-frame image, recommended 1440x2560 (Meta Ads Guide); *on-image text stays inside Meta's safe zone: roughly 14% of the top, 35% of the bottom, and 6% per side stay free, because platform UI (profile icon, call to action) covers those margins (Meta Ads Guide; Meta ships a downloadable safe zone checker)*. Static key visual; animating it is out of scope/future work.
-- **Display banner**: a 300x250 IAB web unit, file up to 150 KB; the copy is rendered into the creative (no caption), so it is minimal (300x250 = the IAB Universal Ad Package medium rectangle, a long-standing fixed web unit; 150 KB = Google Display Network limit).
+- **Display banner**: a 300x250 IAB web unit, file up to 150 KB; the copy is rendered into the creative, so it is minimal (300x250 = the IAB Universal Ad Package medium rectangle, a long-standing fixed web unit; 150 KB = Google Display Network limit).
 
-Why these three: they differ strongly on three enforced constraints, so each artifact must be built for its own format: aspect ratio (4:5 portrait / 9:16 vertical / ~1:1 300x250, so the visual must be recomposed), canvas size (a large 1440x1800 feed image vs a tiny 300x250 banner, so the content must be compressed), and text budget (a caption up to 2200 characters vs a banner with no caption and almost no room for on-image text). How well the campaign holds together across that per-format adaptation is what the topologies are compared on.
+Why these three: they differ strongly on two enforced constraints, so each artifact must be built for its own format: aspect ratio (4:5 portrait / 9:16 vertical / ~1:1 300x250, so the visual must be recomposed) and canvas size (a large 1440x1800 feed image vs a tiny 300x250 banner, so the content and its on-image text must be compressed). How well the campaign holds together across that per-format adaptation is what the topologies are compared on.
 
 ## Test matrix
 - ***Topologies: 4 (Monolithic, Independent, Coarse, Fine)***

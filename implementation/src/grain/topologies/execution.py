@@ -27,7 +27,6 @@ class Execution:
 class Draft:
     platform: str
     image_path: Path
-    caption: str | None
     producer_idx: int
     image_idx: int
 
@@ -58,7 +57,7 @@ def materialize(execution: Execution, spec: PlatformSpec, plan: ArtifactPlan,
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_bytes(response.png)
     return Draft(
-        platform=spec.id, image_path=path, caption=plan.caption,
+        platform=spec.id, image_path=path,
         producer_idx=producer_idx, image_idx=image_idx,
     )
 

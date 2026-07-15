@@ -6,7 +6,7 @@ Short, dated, append-only. Format: what was decided, why, what it forecloses.
 Named after the manipulated variable (task granularity). `src/grain/` with poetry.
 
 ## D2 — 2026-07-12 — SQLite via stdlib + artifacts as files
-`sqlite3` with hand-written SQL in `store/`; images and captions as files under
+`sqlite3` with hand-written SQL in `store/`; images as files under
 `data/runs/<run_id>/`. No ORM: the schema is small, SQL stays visible and
 defensible. The Henkel playground database later replaces `store/` internals only.
 

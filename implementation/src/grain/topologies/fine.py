@@ -14,11 +14,10 @@ from grain.topologies.stopping import should_stop
 
 def review_set(execution: Execution, concept: SharedConcept, drafts: dict[str, Draft],
                round_: int) -> tuple[SetCritique, int]:
-    captions = {pid: draft.caption for pid, draft in drafts.items()}
     images = tuple(drafts[spec.id].image_path for spec in PLATFORMS)
     seed = call_seed(execution.run_seed, f"critic:{round_}")
     critique, response = CriticAgent(execution.provider).review(
-        execution.brief, concept, captions, images, seed,
+        execution.brief, concept, images, seed,
     )
     idx = record_chat(
         execution, response, role="critic", agent="critic", purpose="coordination",

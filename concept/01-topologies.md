@@ -1,7 +1,7 @@
 # Task & Topologies
 
 ## Task
-- **Artifact**: one platform's deliverable (text + image), e.g. an Instagram post = image + caption + hashtags.
+- **Artifact**: one platform's deliverable: a single integrated creative with its text, layout, and branding rendered into an image, e.g. an Instagram post.
 - **Artifact set**: all platform deliverables of one campaign together (Instagram post + vertical story + display banner); they must cohere.
 - The system turns one **brief** into the whole **set**.
 - Quality means coherence across the set (same message, brand, tone over the platforms), plus each artifact's own text-image fit.

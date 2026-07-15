@@ -42,8 +42,7 @@ def require_complete_matrix(cells: dict, briefs: dict[str, Brief]) -> None:
 
 def final_artifacts(conn: sqlite3.Connection, run_id: str) -> dict[str, dict]:
     rows = run_store.list_artifacts(conn, run_id, final_only=True)
-    return {row["platform"]: {"image_path": row["image_path"], "caption": row["caption"]}
-            for row in rows}
+    return {row["platform"]: {"image_path": row["image_path"]} for row in rows}
 
 
 def set_artifacts(conn: sqlite3.Connection, set_row: sqlite3.Row) -> dict[str, dict]:
@@ -58,12 +57,11 @@ def set_artifacts(conn: sqlite3.Connection, set_row: sqlite3.Row) -> dict[str, d
 def judge_assembled_set(conn: sqlite3.Connection, data_dir: Path, provider: Provider,
                         briefs: dict[str, Brief], brief_id: str,
                         sources: dict[str, dict], seed: int, set_id: str) -> dict:
-    images, captions = {}, {}
+    images = {}
     for platform_id, source in sources.items():
         artifact = final_artifacts(conn, source["run_id"])[platform_id]
         images[platform_id] = data_dir / artifact["image_path"]
-        captions[platform_id] = artifact["caption"]
-    result = score_set(provider, briefs[brief_id], images, captions, seed,
+    result = score_set(provider, briefs[brief_id], images, seed,
                        seed_key=f"judge:review-set:{set_id}")
     result["score"] = result.pop("value")
     return result

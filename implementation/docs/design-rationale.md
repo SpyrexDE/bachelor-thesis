@@ -139,7 +139,7 @@ artifact it judges*.
   value. Clicking an artifact **pops a distinct detail card above** the set card,
   wearing the same accent outline as its stage tile: VIEScore with the
   min-formula spelled out, sub-score bars with the judge's rationales, spec
-  checks (failures first, passes collapsed), full caption. Two cards, never one
+  checks (failures first, passes collapsed). Two cards, never one
   shared panel — the two scopes read as two things.
 - **Drawer — telemetry one click down, never a scroll.** A collapsed bar (always
   visible) carries the token-share split (production / coordination / image) and

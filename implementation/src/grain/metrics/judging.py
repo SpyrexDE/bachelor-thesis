@@ -49,21 +49,15 @@ def viescore_prompt(brief: Brief, spec: PlatformSpec) -> str:
     ])
 
 
-def coherence_prompt(brief: Brief, captions: dict[str, str | None],
-                     order: list[str]) -> str:
+def coherence_prompt(brief: Brief, order: list[str]) -> str:
     # Artifact order is randomised per call against position bias (concept/03).
     labels = {spec.id: spec.label for spec in PLATFORMS}
-    blocks = []
-    for pid in order:
-        if captions.get(pid):
-            blocks.append(f"{labels[pid]} caption:\n{captions[pid]}\n")
-        else:
-            blocks.append(f"{labels[pid]}: no caption.\n")
+    blocks = [f"{labels[pid]}." for pid in order]
     return "\n\n".join([
         "You are the set-coherence judge for a campaign artifact set.",
         "## Brief\n" + brief.as_text(),
         "## Rubric\n" + COHERENCE_RUBRIC,
-        "## Artifacts\n" + "\n".join(blocks).strip(),
+        "## Artifacts\n" + "\n".join(blocks),
         "## Task\n" + COHERENCE_TASK,
     ])
 

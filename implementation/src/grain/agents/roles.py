@@ -53,7 +53,7 @@ class ProducerAgent:
             role="producer", seed=seed,
         ))
         plan = parse_json_block(response.text)
-        return ArtifactPlan(self.spec.id, plan["image_prompt"], plan.get("caption")), response
+        return ArtifactPlan(self.spec.id, plan["image_prompt"]), response
 
 
 class SetProducerAgent:
@@ -69,7 +69,7 @@ class SetProducerAgent:
         ))
         plans = parse_json_block(response.text)
         return [
-            ArtifactPlan(spec.id, plans[spec.id]["image_prompt"], plans[spec.id].get("caption"))
+            ArtifactPlan(spec.id, plans[spec.id]["image_prompt"])
             for spec in PLATFORMS
         ], response
 
@@ -82,10 +82,9 @@ class CriticAgent:
         self.provider = provider
 
     def review(self, brief: Brief, concept: SharedConcept,
-               captions: dict[str, str | None], images: tuple[Path, ...],
-               seed: int) -> tuple[SetCritique, ChatResponse]:
+               images: tuple[Path, ...], seed: int) -> tuple[SetCritique, ChatResponse]:
         response = self.provider.chat(ChatRequest(
-            prompt=critic_prompt(brief, concept.text, captions),
+            prompt=critic_prompt(brief, concept.text),
             role="critic", seed=seed, images=images,
         ))
         verdict = parse_json_block(response.text)

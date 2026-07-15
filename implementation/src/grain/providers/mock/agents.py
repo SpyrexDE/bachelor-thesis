@@ -129,22 +129,14 @@ def artifact_plan(pid: str, choice: dict, fields: dict, rng: Random) -> dict:
     if fields["prohibited"] and rng.random() < PROHIBITED_SLIP:
         slip_word = rng.choice(fields["prohibited"])
     kicker = None
-    if slip_word and pid != "instagram":
+    if slip_word:
         kicker = f"Practically {slip_word}."
     elif rng.random() < KICKER_PRESENCE:
         kicker = f"{fields['benefit']}."
 
     violate_safe_zone = pid == "story" and rng.random() < SAFE_ZONE_SLIP
-    caption = None
-    if pid == "instagram":
-        caption = copywriting.instagram_caption(
-            fields, tone, claim_line is not None,
-            slip_word, choice["angle"], rng,
-        )
-
     return {
         "image_prompt": image_prompt(pid, choice, fields, head, kicker, claim_line, violate_safe_zone),
-        "caption": caption,
     }
 
 

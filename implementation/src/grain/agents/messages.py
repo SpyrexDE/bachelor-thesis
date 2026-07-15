@@ -18,7 +18,6 @@ class SharedConcept:
 class ArtifactPlan:
     platform: str
     image_prompt: str
-    caption: str | None
 
 
 @dataclass(frozen=True)

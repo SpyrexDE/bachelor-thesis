@@ -36,10 +36,9 @@ function step(iconName, title, description) {
 }
 
 // One image tile. The frame holds the artifact; clicking enlarges it (never
-// votes) and the enlarged view carries the full caption — so the compact grid
-// stays clean and no copy is ever truncated. `showCaption` prints the full
-// caption inline where there is room for it (the single-set rating screen).
-function artTile(artifact, { showCaption = false } = {}) {
+// votes) — so the compact grid stays clean and the full artifact is one click
+// away.
+function artTile(artifact) {
   // The frame is part of the set's click target (choosing the set); only the
   // hover zoom button opens the artifact — it stops propagation so enlarging
   // never counts as a vote.
@@ -50,10 +49,9 @@ function artTile(artifact, { showCaption = false } = {}) {
     el("img", { src: artifact.image_url, alt: artifact.platform, loading: "lazy" }),
     el("button", {
       class: "rv-zoom", title: "Enlarge", "aria-label": "Enlarge artifact",
-      onclick: (event) => { event.stopPropagation(); openLightbox(artifact.image_url, artifact.caption); },
+      onclick: (event) => { event.stopPropagation(); openLightbox(artifact.image_url); },
     }, icon("maximize", 16), el("span", {}, "Enlarge")));
-  return el("div", { class: "rv-art" }, frame,
-    showCaption && artifact.caption ? el("div", { class: "rv-cap" }, artifact.caption) : null);
+  return el("div", { class: "rv-art" }, frame);
 }
 
 // ---- persistent progress ----------------------------------------------------
@@ -316,7 +314,7 @@ function renderRating(state) {
     el("div", { class: "rv-stage rv-enter" },
       briefPanel(current.brief),
       el("div", { class: "rv-rate" },
-        el("div", { class: "rv-rate-arts" }, ...current.set.artifacts.map((a) => artTile(a, { showCaption: true }))),
+        el("div", { class: "rv-rate-arts" }, ...current.set.artifacts.map((a) => artTile(a))),
         el("div", { class: "rv-pillars" }, ...pillars.map(([key, label, desc]) => scaleRow(key, label, desc))),
         el("div", { class: "rv-rate-foot" },
           el("span", { class: "rv-note" }, "Give all three scores to continue."),

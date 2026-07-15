@@ -40,7 +40,6 @@ CREATE TABLE IF NOT EXISTS artifacts (
     round INTEGER NOT NULL,
     is_final INTEGER NOT NULL,
     image_path TEXT NOT NULL,        -- relative to the data dir
-    caption TEXT,
     PRIMARY KEY (run_id, platform, round)
 );
 

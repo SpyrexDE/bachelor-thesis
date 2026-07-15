@@ -29,11 +29,9 @@ def test_platform_specs_match_concept():
     assert (INSTAGRAM.width, INSTAGRAM.height) == (1440, 1800)
     assert (STORY.width, STORY.height) == (1440, 2560)
     assert (BANNER.width, BANNER.height) == (300, 250)
-    assert INSTAGRAM.caption_max_chars == 2200 and INSTAGRAM.hashtag_max == 30
     assert STORY.safe_zone.top == 0.14
     assert STORY.safe_zone.bottom == 0.35
     assert STORY.safe_zone.side == 0.06
-    assert not STORY.has_caption and not BANNER.has_caption
 
 
 def test_matrix_dimensions(briefs):
@@ -116,11 +114,12 @@ def test_viescore_zero_subscore_zeroes_the_artifact():
     assert overall({"a": 0, "b": 9}, {"c": 9, "d": 8}) == 0.0
 
 
-def test_viescore_judge_never_sees_the_caption(brief):
-    # An image metric: text is judged in set coherence instead (concept/03).
+def test_viescore_is_a_single_artifact_metric(brief):
+    # VIEScore scores one artifact's image against the brief and platform; the
+    # whole-set coherence block belongs to a different judge (concept/03).
     prompt = viescore_prompt(brief, INSTAGRAM)
-    assert "caption:" not in prompt.lower().replace("caption up to", "")
     assert "## Artifacts" not in prompt
+    assert "## Rubric" not in prompt
 
 
 # --- concept/03: set coherence min rule -------------------------------------

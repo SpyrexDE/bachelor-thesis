@@ -36,7 +36,7 @@ def compute_run_metrics(conn, data_dir: Path, provider: Provider, run_id: str,
         spec = platform(pid)
         image_path = data_dir / row["image_path"]
 
-        checks = check_artifact(brief, spec, image_path, row["caption"])
+        checks = check_artifact(brief, spec, image_path)
         all_checks.extend(checks)
         store.upsert_metric(conn, run_id, "spec", pid, compliance_share(checks), {"checks": checks})
 
@@ -62,8 +62,7 @@ def compute_run_metrics(conn, data_dir: Path, provider: Provider, run_id: str,
             if row["round"] == round_
         }
         images = {pid: data_dir / row["image_path"] for pid, row in by_platform.items()}
-        captions = {pid: row["caption"] for pid, row in by_platform.items()}
-        result = score_set(provider, brief, images, captions, run["seed"],
+        result = score_set(provider, brief, images, run["seed"],
                            seed_key=f"judge:coherence:{round_}")
         value = result.pop("value")
         if is_fine:

@@ -19,7 +19,7 @@ Share of tokens spent re-establishing cross-agent coherence rather than producin
 
 - $\text{tax} = \frac{\text{coordination tokens}}{\text{total tokens}}$, with total = coordination + production.
 - **Coordination**: every token (input and output) of the calls that exist only because the work is split: the orchestrator's concept call (Coarse, Fine) and the critic's feedback (Fine).
-- **Production**: every token of the calls that make artifact content, namely each producer's text (caption, copy) and the prompt it sends to the image model. A single agent's own planning counts here too: it would happen with or without a split, so it is production, not coordination.
+- **Production**: every token of the calls that make artifact content, namely each producer's copy and the prompt it sends to the image model. A single agent's own planning counts here too: it would happen with or without a split, so it is production, not coordination.
 - **Monolithic and Independent are exactly zero by construction**: neither has an orchestrator or critic call, so no coordination tokens exist.
 
 How the tax changes from Coarse to Fine is an open measurement: revision rounds add coordination tokens (critic feedback) and production tokens (revised artifacts) at the same time, so the share can rise or fall. This is the cost side of granularity, reported next to latency.
@@ -35,14 +35,13 @@ Machine quality of a single artifact, scored by a VLM that also gives a rational
 	- the inner min sets each axis to its worst sub-score: a single sub-score of 0 sets the whole axis to 0
 	- the outer geometric mean is 0 if either axis is 0, otherwise balances the two
 - Scored against the brief and the platform specs (02), the same references for every topology and run. The orchestrator's creative concept is not the reference (it exists only in Coarse and Fine and varies per run), and neither is the producer's own image prompt: both differ by topology, so scoring against them would make the metric depend on the topology.
-- The caption is not scored by VIEScore (an image metric); text is judged in set coherence, where the judge sees image and text together.
 - Reported per platform artifact, then averaged over the set for a per-set quality number.
 > **Source**: Ku 2024 (VIEScore).
 
 ## Set coherence
 Whether the whole set forms one campaign: the same key message, brand cues, and tone across the three platform artifacts. This is the cross-artifact metric.
 
-- **Scoring**: one VLM-judge call receives the whole set at once (all three artifacts, image and text together), the brief, and a written rubric, and returns one sub-score per rubric pillar (key message, brand cues, tone; 0 to 5 each), each with a justification.
+- **Scoring**: one VLM-judge call receives the whole set at once (all three artifacts), the brief, and a written rubric, and returns one sub-score per rubric pillar (key message, brand cues, tone; 0 to 5 each), each with a justification.
 	- The set's coherence score is the minimum of the three sub-scores. The definition is conjunctive (one message AND brand AND tone), so one broken pillar breaks the campaign; the same floor logic as VIEScore's inner min.
 	- Protocol and scale follow InterleavedEval (Liu 2024): reference-free, whole-instance input, score plus rationale, validated against human ratings by Spearman correlation. The split into sub-scores with an explicit rule follows VIEScore (Ku 2024).
 	- Fallback: if the first real-output runs show degenerate sub-scores (identical values across sets), scoring falls back to one holistic 0-to-5 score, Liu's exact protocol.
@@ -66,7 +65,7 @@ Whether the whole set forms one campaign: the same key message, brand cues, and 
 
 ## Spec compliance (per artifact)
 - **Not scored**: aspect ratio and pixel size come from the request arguements, so  every artifact is delivered at the platform's format by construction. File size (banner up to 150 KB, 02) is not an agent decision and carries no signal about the coordination structure, so it too stays out of the scored share.
-- **Checked in code**: the passed-check share counts only what a producer can actually get wrong: required claims present, prohibited wording absent, on-image text inside the story safe zone and readable (margins 14%/35%/6% from 02), caption length and hashtag count. Rendered text is read via OCR. Reported as share of passed checks, per artifact and per set.
+- **Checked in code**: the passed-check share counts only what a producer can actually get wrong: required claims present, prohibited wording absent, on-image text inside the story safe zone and readable (margins 14%/35%/6% from 02). Rendered text is read via OCR. Reported as share of passed checks, per artifact and per set.
 
 ## Latency
 End-to-end wall-clock seconds, from brief to finished set.

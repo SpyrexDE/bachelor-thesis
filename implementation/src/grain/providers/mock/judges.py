@@ -10,7 +10,7 @@ the real judges, these return sub-scores with rationales.
 from pathlib import Path
 from random import Random
 
-from grain.domain.platforms import PLATFORMS, outside_safe_zone, platform
+from grain.domain.platforms import outside_safe_zone, platform
 from grain.providers.mock import lexicon
 from grain.providers.mock.agents import fenced, jaccard
 from grain.providers.mock.sections import brief_field, brief_list_field, section
@@ -21,9 +21,9 @@ def clamp(value: float, low: int, high: int) -> int:
     return int(max(low, min(high, round(value))))
 
 
-def artifact_terms(manifest: dict, caption: str | None) -> set[str]:
+def artifact_terms(manifest: dict) -> set[str]:
     text = " ".join(
-        filter(None, (manifest["headline"], manifest["kicker"], manifest["claim_line"], caption))
+        filter(None, (manifest["headline"], manifest["kicker"], manifest["claim_line"]))
     )
     return set(lexicon.terms(text))
 
@@ -31,24 +31,6 @@ def artifact_terms(manifest: dict, caption: str | None) -> set[str]:
 def carries_claim(claim: str, terms: set[str]) -> bool:
     wanted = set(lexicon.terms(claim))
     return bool(wanted) and len(wanted & terms) / len(wanted) >= 0.8
-
-
-def caption_from_prompt(prompt: str, platform_label: str) -> str | None:
-    artifacts = section(prompt, "artifacts") or ""
-    marker = f"{platform_label} caption:"
-    if marker not in artifacts:
-        return None
-    tail = artifacts.split(marker, 1)[1]
-    # The caption ends where the next platform's block begins, not at the first
-    # blank line: captions themselves contain one (copy, then hashtags).
-    cut = len(tail)
-    for spec in PLATFORMS:
-        for boundary in (f"{spec.label} caption:", f"{spec.label}: no caption."):
-            position = tail.find(boundary)
-            if position != -1:
-                cut = min(cut, position)
-    caption = tail[:cut].strip()
-    return caption or None
 
 
 def text_boxes_outside_safe_zone(manifest: dict) -> list[str]:
@@ -64,7 +46,7 @@ def text_boxes_outside_safe_zone(manifest: dict) -> list[str]:
 
 
 def viescore(prompt: str, seed: int, images: tuple[Path, ...]) -> str:
-    # An image metric: the caption is never part of the input (concept/03, VIEScore).
+    # A single-artifact image metric (concept/03, VIEScore).
     rng = Random(seed)
     brief_text = section(prompt, "brief")
     claim = (brief_list_field(brief_text, "Required claims") or [""])[0]
@@ -72,7 +54,7 @@ def viescore(prompt: str, seed: int, images: tuple[Path, ...]) -> str:
 
     manifest = read_manifest(images[0])
     spec = platform(manifest["platform"])
-    terms = artifact_terms(manifest, caption=None)
+    terms = artifact_terms(manifest)
 
     coverage = len(benefit_terms & terms) / len(benefit_terms) if benefit_terms else 0.0
     has_claim = carries_claim(claim, terms)
@@ -101,7 +83,7 @@ def viescore(prompt: str, seed: int, images: tuple[Path, ...]) -> str:
                 f"{'Carries' if has_claim else 'Misses'} the required claim; "
                 f"benefit wording coverage {coverage:.0%}."
             ),
-            "platform_fit": "; ".join(issues) if issues else "format, text budget and layout fit the platform",
+            "platform_fit": "; ".join(issues) if issues else "format and layout fit the platform",
             "naturalness": "clean synthetic render" + (", crowded layout" if text_lines > 4 else ""),
             "artifact_freeness": "no rendering artifacts visible",
         },
@@ -114,11 +96,7 @@ def coherence(prompt: str, seed: int, images: tuple[Path, ...]) -> str:
     claim = (brief_list_field(brief_text, "Required claims") or [""])[0]
 
     manifests = [read_manifest(path) for path in images]
-    captions = {
-        m["platform"]: caption_from_prompt(prompt, platform(m["platform"]).label)
-        for m in manifests
-    }
-    term_sets = [artifact_terms(m, captions[m["platform"]]) for m in manifests]
+    term_sets = [artifact_terms(m) for m in manifests]
     carriers = sum(carries_claim(claim, terms) for terms in term_sets)
     pairs = [(0, 1), (0, 2), (1, 2)]
     overlap = sum(jaccard(term_sets[a], term_sets[b]) for a, b in pairs) / len(pairs)

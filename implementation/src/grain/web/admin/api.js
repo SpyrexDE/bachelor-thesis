@@ -1,4 +1,4 @@
-import { PLATFORM_ICONS, icon } from "/icons.js";
+import { icon } from "/icons.js";
 
 // Image tags cannot send the admin header, so the token also travels as a
 // cookie the gate accepts (api/app.py).
@@ -57,14 +57,32 @@ export function errorNote(error) {
   return el("p", { class: "error-note" }, String(error.message ?? error));
 }
 
-export function openLightbox(src, caption = null) {
-  const close = () => { overlay.remove(); document.removeEventListener("keydown", onKey); };
+export function openLightbox(src) {
+  const img = el("img", { src, onclick: (e) => e.stopPropagation() });
+  // "Enlarge" must always enlarge: fit the artifact into the viewport, scaling
+  // small ones (the 300x250 banner) up as well as large ones down. Aspect ratio
+  // is preserved; the 4x cap keeps a tiny raster from turning to mush.
+  const fit = () => {
+    if (!img.naturalWidth) return;
+    const scale = Math.min(
+      (innerWidth * 0.92) / img.naturalWidth,
+      (innerHeight * 0.9) / img.naturalHeight,
+      4,
+    );
+    img.style.width = `${Math.floor(img.naturalWidth * scale)}px`;
+    img.style.height = `${Math.floor(img.naturalHeight * scale)}px`;
+  };
+  const close = () => {
+    overlay.remove();
+    document.removeEventListener("keydown", onKey);
+    removeEventListener("resize", fit);
+  };
   const onKey = (event) => { if (event.key === "Escape") close(); };
-  const figure = el("div", { class: "lightbox-figure", onclick: (e) => e.stopPropagation() },
-    el("img", { src }),
-    caption ? el("div", { class: "lightbox-caption" }, caption) : null);
+  img.addEventListener("load", fit);
+  if (img.complete) fit();
+  addEventListener("resize", fit);
   const overlay = el("div", { class: "lightbox", onclick: close },
-    figure,
+    img,
     el("button", { class: "lightbox-close", "aria-label": "Close" }, icon("x-circle", 22)));
   document.addEventListener("keydown", onKey);
   document.body.append(overlay);
@@ -128,20 +146,4 @@ export function topoChip(topology, { bare = false, size = 11 } = {}) {
 // The same tint as a CSS custom property, for SVG fills/strokes in charts.
 export function topoTone(topology) {
   return `var(--topo-${topology}-fg)`;
-}
-
-export function artifactCard(platformId, imageUrl, caption, extra = null, overlay = null) {
-  const label = PLATFORM_LABELS[platformId] ?? platformId;
-  return el("div", { class: "artifact-card" },
-    el("div", { class: "frame", title: "Click to enlarge", onclick: () => openLightbox(imageUrl) },
-      overlay,
-      el("img", { src: imageUrl, alt: label, loading: "lazy" }),
-      el("span", { class: "enlarge", "aria-hidden": "true" }, icon("maximize", 14))),
-    el("div", { class: "meta" },
-      el("div", { class: "row spread" },
-        el("strong", {}, icon(PLATFORM_ICONS[platformId] ?? "banner", 14), ` ${label}`),
-        extra),
-      caption ? el("div", { class: "caption" }, caption) : null,
-    ),
-  );
 }

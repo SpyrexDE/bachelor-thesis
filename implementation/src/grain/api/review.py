@@ -257,7 +257,6 @@ def set_payload(conn: Connection, request: Request, code: str, set_id: str) -> d
             {
                 "platform": spec.id,
                 "image_url": f"/api/review/session/{code}/image/{set_id}/{spec.id}",
-                "caption": sources[spec.id]["caption"],
             }
             for spec in PLATFORMS if spec.id in sources
         ],

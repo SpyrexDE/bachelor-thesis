@@ -15,9 +15,6 @@ class PlatformSpec:
     label: str
     width: int
     height: int
-    has_caption: bool
-    caption_max_chars: int | None
-    hashtag_max: int | None
     safe_zone: SafeZone | None
 
 
@@ -27,9 +24,6 @@ INSTAGRAM = PlatformSpec(
     label="Instagram post",
     width=1440,
     height=1800,
-    has_caption=True,
-    caption_max_chars=2200,
-    hashtag_max=30,
     safe_zone=None,
 )
 
@@ -38,9 +32,6 @@ STORY = PlatformSpec(
     label="Story (9:16)",
     width=1440,
     height=2560,
-    has_caption=False,
-    caption_max_chars=None,
-    hashtag_max=None,
     safe_zone=SafeZone(top=0.14, bottom=0.35, side=0.06),
 )
 
@@ -49,9 +40,6 @@ BANNER = PlatformSpec(
     label="Display banner",
     width=300,
     height=250,
-    has_caption=False,
-    caption_max_chars=None,
-    hashtag_max=None,
     safe_zone=None,
 )
 

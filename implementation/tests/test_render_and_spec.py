@@ -4,7 +4,7 @@ import io
 
 from PIL import Image
 
-from grain.domain.platforms import BANNER, INSTAGRAM, STORY
+from grain.domain.platforms import BANNER, STORY
 from grain.metrics.spec import check_artifact, compliance_share
 from grain.providers.base import ImageRequest
 from grain.providers.mock import MockProvider
@@ -65,7 +65,7 @@ def test_banner_stays_under_the_150_kb_limit():
 def test_spec_checks_pass_on_a_clean_story(tmp_path, briefs):
     path = tmp_path / "story.png"
     path.write_bytes(render(PROMPT))
-    checks = check_artifact(briefs["persil"], STORY, path, caption=None)
+    checks = check_artifact(briefs["persil"], STORY, path)
     by_name = {c["check"]: c["passed"] for c in checks}
     assert by_name['required claim "Deep Clean at 20 degrees"'] is True
     assert by_name["on-image text inside the safe zone"] is True
@@ -77,40 +77,25 @@ def test_spec_checks_pass_on_a_clean_story(tmp_path, briefs):
 def test_spec_flags_text_outside_the_safe_zone(tmp_path, briefs):
     path = tmp_path / "story.png"
     path.write_bytes(render(VIOLATION_PROMPT))
-    checks = check_artifact(briefs["persil"], STORY, path, caption=None)
+    checks = check_artifact(briefs["persil"], STORY, path)
     safe_zone = next(c for c in checks if c["check"] == "on-image text inside the safe zone")
     assert safe_zone["passed"] is False
     assert compliance_share(checks) < 1.0
 
 
 @requires_tesseract
-def test_spec_flags_prohibited_wording_in_caption(tmp_path, briefs):
-    path = tmp_path / "story.png"
-    path.write_bytes(render(PROMPT))
-    checks = check_artifact(
-        briefs["persil"], STORY, path,
-        caption=None,
-    )
-    clean = {c["check"]: c["passed"] for c in checks}
+def test_spec_flags_prohibited_wording_on_image(tmp_path, briefs):
+    # All copy lives on the image, so prohibited wording is caught via OCR.
+    clean_path = tmp_path / "clean.png"
+    clean_path.write_bytes(render(PROMPT))
+    clean = {c["check"]: c["passed"] for c in check_artifact(briefs["persil"], STORY, clean_path)}
     assert clean['prohibited wording "germ-free"'] is True
 
-    # Same render, but the caption smuggles a prohibited phrase.
-    ig_path = tmp_path / "ig.png"
-    ig_path.write_bytes(render(PROMPT.replace("Story (9:16)", "Instagram post"),
-                               spec=INSTAGRAM))
-    checks = check_artifact(briefs["persil"], INSTAGRAM, ig_path,
-                            caption="Practically germ-free freshness. #persil")
-    flagged = {c["check"]: c["passed"] for c in checks}
+    # Same render, but a prohibited phrase now sits in the on-image claim line.
+    off_path = tmp_path / "offending.png"
+    off_path.write_bytes(render(PROMPT.replace(
+        'Claim line: "Deep Clean at 20 degrees".',
+        'Claim line: "Germ free result".',
+    )))
+    flagged = {c["check"]: c["passed"] for c in check_artifact(briefs["persil"], STORY, off_path)}
     assert flagged['prohibited wording "germ-free"'] is False
-
-
-def test_caption_limits_checked_without_ocr(tmp_path, briefs, monkeypatch):
-    # Caption checks are pure code; verify hashtag counting on a crafted caption.
-    import grain.metrics.spec as spec_module
-
-    monkeypatch.setattr(spec_module, "ocr_words", lambda path: [])
-    caption = "Fresh. " + " ".join(f"#tag{i}" for i in range(31))
-    checks = check_artifact(briefs["persil"], INSTAGRAM, tmp_path / "x.png", caption)
-    by_name = {c["check"]: c for c in checks}
-    assert by_name["at most 30 hashtags"]["passed"] is False
-    assert by_name["caption within 2200 characters"]["passed"] is True

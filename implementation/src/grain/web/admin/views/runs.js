@@ -608,10 +608,6 @@ function buildArtifactPanel(run, metricsByKey, ui, on) {
       run.status === "done" ? "No per-artifact metrics stored — recompute the run." : "Judged once the run finishes."));
   }
 
-  if (artifact?.caption) {
-    blocks.push(el("div", { class: "cap-hd" }, "Caption"), el("div", { class: "rd-caption" }, artifact.caption));
-  }
-
   return el("div", { class: "card rd-artpanel" }, ...blocks.filter(Boolean));
 }
 

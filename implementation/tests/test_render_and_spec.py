@@ -20,12 +20,6 @@ PROMPT = (
     "Keep all text inside the safe area: top 14%, bottom 35%, sides 6% stay free."
 )
 
-VIOLATION_PROMPT = PROMPT.replace(
-    "Keep all text inside the safe area: top 14%, bottom 35%, sides 6% stay free.",
-    "Place the claim line at the very bottom edge of the frame.",
-)
-
-
 def render(prompt: str, spec=STORY, seed: int = 7) -> bytes:
     provider = MockProvider()
     return provider.image(
@@ -65,22 +59,24 @@ def test_banner_stays_under_the_150_kb_limit():
 def test_spec_checks_pass_on_a_clean_story(tmp_path, briefs):
     path = tmp_path / "story.png"
     path.write_bytes(render(PROMPT))
-    checks = check_artifact(briefs["persil"], STORY, path)
+    checks = check_artifact(briefs["persil"], path)
     by_name = {c["check"]: c["passed"] for c in checks}
     assert by_name['required claim "Deep Clean at 20 degrees"'] is True
-    assert by_name["on-image text inside the safe zone"] is True
-    assert by_name["on-image text readable"] is True
     assert all(passed for name, passed in by_name.items() if name.startswith("prohibited"))
+    assert compliance_share(checks) == 1.0
 
 
 @requires_tesseract
-def test_spec_flags_text_outside_the_safe_zone(tmp_path, briefs):
+def test_spec_checks_only_producer_decisions(tmp_path, briefs):
+    # concept/03: only required claims and prohibited wording are scored. Placement
+    # (safe zone) and readability are the image model's, not the producer's, so no
+    # such check exists.
     path = tmp_path / "story.png"
-    path.write_bytes(render(VIOLATION_PROMPT))
-    checks = check_artifact(briefs["persil"], STORY, path)
-    safe_zone = next(c for c in checks if c["check"] == "on-image text inside the safe zone")
-    assert safe_zone["passed"] is False
-    assert compliance_share(checks) < 1.0
+    path.write_bytes(render(PROMPT))
+    checks = check_artifact(briefs["persil"], path)
+    assert checks, "a brief with mandatories yields at least one check"
+    for check in checks:
+        assert check["check"].startswith(("required claim", "prohibited wording"))
 
 
 @requires_tesseract
@@ -88,7 +84,7 @@ def test_spec_flags_prohibited_wording_on_image(tmp_path, briefs):
     # All copy lives on the image, so prohibited wording is caught via OCR.
     clean_path = tmp_path / "clean.png"
     clean_path.write_bytes(render(PROMPT))
-    clean = {c["check"]: c["passed"] for c in check_artifact(briefs["persil"], STORY, clean_path)}
+    clean = {c["check"]: c["passed"] for c in check_artifact(briefs["persil"], clean_path)}
     assert clean['prohibited wording "germ-free"'] is True
 
     # Same render, but a prohibited phrase now sits in the on-image claim line.
@@ -97,5 +93,7 @@ def test_spec_flags_prohibited_wording_on_image(tmp_path, briefs):
         'Claim line: "Deep Clean at 20 degrees".',
         'Claim line: "Germ free result".',
     )))
-    flagged = {c["check"]: c["passed"] for c in check_artifact(briefs["persil"], STORY, off_path)}
+    checks = check_artifact(briefs["persil"], off_path)
+    flagged = {c["check"]: c["passed"] for c in checks}
     assert flagged['prohibited wording "germ-free"'] is False
+    assert compliance_share(checks) < 1.0

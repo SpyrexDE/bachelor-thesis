@@ -64,8 +64,8 @@ Whether the whole set forms one campaign: the same key message, brand cues, and 
 	- Judge bias (position, verbosity, self-preference; Ye 2025, Justice or Prejudice) is only partly addressed: randomised artifact order counters position bias; a fixed rubric, judge model, temperature, and seed make scoring reproducible. Verbosity bias remains open, and self-preference depends on whether the judge model differs from the producer model. *Open: judge model choice (implementation phase; a judge different from the producer model would address self-preference).*
 
 ## Spec compliance (per artifact)
-- **Not scored**: aspect ratio and pixel size come from the request arguements, so  every artifact is delivered at the platform's format by construction. File size (banner up to 150 KB, 02) is not an agent decision and carries no signal about the coordination structure, so it too stays out of the scored share.
-- **Checked in code**: the passed-check share counts only what a producer can actually get wrong: required claims present, prohibited wording absent, on-image text inside the story safe zone and readable (margins 14%/35%/6% from 02). Rendered text is read via OCR. Reported as share of passed checks, per artifact and per set.
+- **Not scored**: aspect ratio and pixel size come from the request arguments, so every artifact is delivered at the platform's format by construction. File size (banner up to 150 KB, 02) and on-image text placement (safe zone, 02) are not agent decisions: the image model sets the pixels, so neither carries a coordination signal. Both stay out of the scored share.
+- **Checked in code**: the passed-check share counts only what a producer decides: required claims present, prohibited wording absent. Verbatim claim strings are read from the image via OCR. Reported as share of passed checks, per artifact and per set.
 
 ## Latency
 End-to-end wall-clock seconds, from brief to finished set.

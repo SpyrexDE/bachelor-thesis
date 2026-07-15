@@ -589,17 +589,24 @@ function buildArtifactPanel(run, metricsByKey, ui, on) {
     blocks.push(el("div", { class: `spec-row ${fails.length ? "bad" : "ok"}` },
       icon(fails.length ? "alert" : "check-circle", 14),
       `Spec ${passes.length}/${checks.length}`));
+    // Failed checks always sit open. Passing ones fold into a details, shown
+    // whether or not anything failed — a clean N/N still lets you read which
+    // required claims and prohibited-wording checks the artifact passed.
     if (fails.length) {
       blocks.push(
         el("div", { class: "checks" },
           ...fails.map((check) =>
             el("div", { class: "check-line fail" },
               el("span", { class: "badge bad" }, "fail"),
-              el("span", {}, check.check, check.note ? el("span", { class: "muted" }, ` — ${check.note}`) : null)))),
-        el("details", {}, el("summary", {}, `${passes.length} passing checks`),
+              el("span", {}, check.check, check.note ? el("span", { class: "muted" }, ` — ${check.note}`) : null)))));
+    }
+    if (passes.length) {
+      blocks.push(
+        el("details", {}, el("summary", {}, `${passes.length} passing check${passes.length > 1 ? "s" : ""}`),
           el("div", { class: "checks", style: "margin-top:6px" },
             ...passes.map((check) => el("div", { class: "check-line" },
-              el("span", { class: "badge ok" }, "pass"), el("span", {}, check.check))))));
+              el("span", { class: "badge ok" }, "pass"),
+              el("span", {}, check.check, check.note ? el("span", { class: "muted" }, ` — ${check.note}`) : null))))));
     }
   }
 

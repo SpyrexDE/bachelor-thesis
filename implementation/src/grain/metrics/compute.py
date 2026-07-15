@@ -36,7 +36,7 @@ def compute_run_metrics(conn, data_dir: Path, provider: Provider, run_id: str,
         spec = platform(pid)
         image_path = data_dir / row["image_path"]
 
-        checks = check_artifact(brief, spec, image_path)
+        checks = check_artifact(brief, image_path)
         all_checks.extend(checks)
         store.upsert_metric(conn, run_id, "spec", pid, compliance_share(checks), {"checks": checks})
 

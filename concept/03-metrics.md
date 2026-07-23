@@ -18,9 +18,9 @@ Five machine metrics, plus a human A/B protocol:
 Share of tokens spent re-establishing cross-agent coherence rather than producing artifact content: the price the coordinated topologies pay to recover, through the concept call and critic loop, the shared context a single window provides on its own.
 
 - $\text{tax} = \frac{\text{coordination tokens}}{\text{total tokens}}$, with total = coordination + production.
-- **Coordination**: every token (input and output) of the calls that exist only because the work is split: the orchestrator's concept call (Coarse, Fine) and the critic's feedback (Fine).
+- **Coordination**: every token (input and output) of the calls that exist only because the work is split: the creative director's concept call (Coarse, Fine) and the critic's feedback (Fine).
 - **Production**: every token of the calls that make artifact content, namely each producer's copy and the prompt it sends to the image model. A single agent's own planning counts here too: it would happen with or without a split, so it is production, not coordination.
-- **Monolithic and Independent are exactly zero by construction**: neither has an orchestrator or critic call, so no coordination tokens exist.
+- **Monolithic and Independent are exactly zero by construction**: neither has a creative director or critic call, so no coordination tokens exist.
 
 How the tax changes from Coarse to Fine is an open measurement: revision rounds add coordination tokens (critic feedback) and production tokens (revised artifacts) at the same time, so the share can rise or fall. This is the cost side of granularity, reported next to latency.
 > **Source**: the "communication tax" framing for inter-agent token overhead is from Wang 2025 (AgentTaxo), reused by Salim 2026 (Tokenomics); token-level cost accounting also follows Salim 2026, Zhang 2025 (Cut the Crap), and Yan 2025 (communication survey). Coordination tax is a distinct metric here: Wang counts duplicated tokens as waste, we count the tokens spent to restore coherence across the split (concept call, critic feedback), so the brief stays production and Monolithic and Independent are zero.
@@ -34,7 +34,7 @@ Machine quality of a single artifact, scored by a VLM that also gives a rational
 - $O = \sqrt{\min(\text{SC sub-scores}) \times \min(\text{PQ sub-scores})}$
 	- the inner min sets each axis to its worst sub-score: a single sub-score of 0 sets the whole axis to 0
 	- the outer geometric mean is 0 if either axis is 0, otherwise balances the two
-- Scored against the brief and the platform specs (02), the same references for every topology and run. The orchestrator's creative concept is not the reference (it exists only in Coarse and Fine and varies per run), and neither is the producer's own image prompt: both differ by topology, so scoring against them would make the metric depend on the topology.
+- Scored against the brief and the platform specs (02), the same references for every topology and run. The creative director's creative concept is not the reference (it exists only in Coarse and Fine and varies per run), and neither is the producer's own image prompt: both differ by topology, so scoring against them would make the metric depend on the topology.
 - Reported per platform artifact, then averaged over the set for a per-set quality number.
 > **Source**: Ku 2024 (VIEScore).
 
@@ -46,7 +46,7 @@ Whether the whole set forms one campaign: the same key message, brand cues, and 
 	- Protocol and scale follow InterleavedEval (Liu 2024): reference-free, whole-instance input, score plus rationale, validated against human ratings by Spearman correlation. The split into sub-scores with an explicit rule follows VIEScore (Ku 2024).
 	- Fallback: if the first real-output runs show degenerate sub-scores (identical values across sets), scoring falls back to one holistic 0-to-5 score, Liu's exact protocol.
 - **Rubric (what counts as coherent)**: a shared key message, brand cues, and tone; the visual format is expected to differ per platform.
-	- "Key message" is the message the finished set carries, judged against the brief. It is not the orchestrator's internal creative concept (01): Monolithic and Independent have none, and the metric must be identical for every topology.
+	- "Key message" is the message the finished set carries, judged against the brief. It is not the creative director's internal creative concept (01): Monolithic and Independent have none, and the metric must be identical for every topology.
 	- Why these three pillars: they are the brief elements (02, verbatim from Belch & Belch) that are visible in every artifact and must stay the same across platforms: key benefits / major selling idea (key message), tone and manner / brand personality (tone), mandatories and brand personality (brand cues). The remaining brief elements do not qualify: deliverables differ per platform by design, the target audience is fixed across runs, measures of success are not visible in an artifact, and objectives, insights, and reason to believe show up through message and tone rather than as separate visible dimensions.
 	- From Liu only the protocol is borrowed; the rubric is written for this task. Liu's own coherence rubric rewards visual sameness across images (consistent style, subject, clothing, and traits) and a single unified narrative, while a campaign keeps one message, brand, and tone and changes the format per platform on purpose.
 - **Why the judge sees the whole set, not pairs** (pairs are the common protocol in prior consistency evaluation):

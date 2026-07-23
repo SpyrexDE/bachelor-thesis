@@ -1,0 +1,23 @@
+{
+  "name": "claimcheck",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "build": "node build_content.mjs && node build_concept.mjs",
+    "anchors:prepare": "node prepare_anchor_tasks.mjs",
+    "anchors:build": "node verify_and_build_anchors.mjs",
+    "test": "node test/verify_content.mjs && node test/verify_needles.mjs && node test/verify_anchors.mjs && node test/verify_concept_anchors.mjs",
+    "serve": "python3 serve.py"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "pdfjs-dist": "^4.10.38"
+  }
+}

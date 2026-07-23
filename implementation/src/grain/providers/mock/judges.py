@@ -2,7 +2,7 @@
 
 Scores derive from measurable features of the artifacts (manifest text, palette,
 text boxes) against the brief in the prompt, plus a small seeded jitter — so the
-numbers demonstrate the pipeline, not findings (docs/decisions.md D5). Formulas
+numbers demonstrate the pipeline, not findings (docs/.ai/decisions.md D5). Formulas
 (min rules, geometric mean) are applied downstream in metrics/, not here: like
 the real judges, these return sub-scores with rationales.
 """

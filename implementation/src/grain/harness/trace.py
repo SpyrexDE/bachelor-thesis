@@ -3,7 +3,7 @@
 A call starts when its parents have finished (assuming enough parallel API
 capacity), so the recorded timeline reflects the topology's true structure:
 Independent's producers overlap, Fine's rounds chain. Latency is read off this
-timeline as the longest path (docs/decisions.md D4).
+timeline as the longest path (docs/.ai/decisions.md D4).
 """
 
 from dataclasses import dataclass
@@ -12,7 +12,7 @@ from dataclasses import dataclass
 @dataclass(frozen=True)
 class Call:
     idx: int
-    role: str            # orchestrator | producer | critic | image
+    role: str            # director | producer | critic | image
     agent: str
     purpose: str         # coordination | production (concept/03, coordination tax)
     round: int

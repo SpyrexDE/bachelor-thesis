@@ -8,7 +8,7 @@ from typing import Protocol
 @dataclass(frozen=True)
 class ChatRequest:
     prompt: str
-    role: str  # orchestrator | producer | critic | judge_viescore | judge_coherence
+    role: str  # director | producer | critic | judge_viescore | judge_coherence
     seed: int
     images: tuple[Path, ...] = ()
 
@@ -41,7 +41,7 @@ class Provider(Protocol):
     """Every model call in the system goes through this seam (docs/architecture.md).
 
     Real providers report measured durations; the mock reports simulated ones
-    (docs/decisions.md D4). A chat request may carry image paths, standing in for
+    (docs/.ai/decisions.md D4). A chat request may carry image paths, standing in for
     the vision input a VLM call would receive.
     """
 

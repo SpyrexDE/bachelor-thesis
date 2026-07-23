@@ -1,8 +1,14 @@
-# Development override: source and briefs mounted live, uvicorn reloads on
-# Python changes, UI files serve straight from the working tree.
-#   docker compose -f docker-compose.yml -f docker-compose.dev.yml up
+# Development override: source, tests, and briefs mounted live; the image adds the test
+# toolchain (dev target); uvicorn reloads on Python changes; UI serves from the tree.
+#   run:   docker compose -f docker-compose.yml -f docker-compose.dev.yml up
+#   tests: docker compose -f docker-compose.yml -f docker-compose.dev.yml run --rm grain pytest
 services:
   grain:
+    # distinct image name: the dev image carries pytest, the reference image stays lean.
+    # A shared tag would let one overwrite the other, so `run pytest` could hit base.
+    image: grain-dev
+    build:
+      target: dev
     command: uvicorn --factory grain.api.app:create_app --host 0.0.0.0 --port 8000 --reload --reload-dir /app/src
     environment:
       GRAIN_PROVIDER: mock
@@ -11,4 +17,5 @@ services:
     volumes:
       - ./src:/app/src
       - ./briefs:/app/briefs
+      - ./tests:/app/tests
       - ./data:/data

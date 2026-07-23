@@ -1,7 +1,7 @@
 """In-loop stopping proxy for Fine.
 
 Deliberately cruder than the official set-coherence judge and kept apart from it
-(concept/01 validity caution; docs/decisions.md D11): no brief, no rubric, no
+(concept/01 validity caution; docs/.ai/decisions.md D11): no brief, no rubric, no
 tone — just palette uniformity and wording overlap across the draft set. The
 concrete real-mode proxy remains an open point for the pilot phase.
 """

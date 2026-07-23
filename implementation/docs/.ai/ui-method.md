@@ -1,16 +1,16 @@
-# How I design UI/UX here (my working method)
+# UI design method
 
-This is the lens I apply before touching any screen. If I skip it I get reactive
+The lens applied before touching any screen. Skipping it yields reactive
 patches and default components — the failure mode this file exists to prevent.
 
 ## 1. Start from the decision, not the screen
 
 Ask first: *what is the user trying to decide or find here?* Design backwards
 from that one question. A screen is a tool for a decision, not a place to put
-data. On each surface I write the decision down before laying anything out:
+data. Each surface names its decision before anything is laid out:
 
 - Matrix → "which topology wins, and where does it break down?"
-- Runs list → "which runs are outliers, and let me open one."
+- Runs list → "which runs are outliers, and open one."
 - Run detail → "is this set any good, and *why* — do the numbers hold up?"
 - Analysis → "what's the effect of granularity, with what spread?"
 
@@ -79,8 +79,8 @@ text lines run past readable length. Cap the reading width and cap any element
 that would otherwise eat `1fr` (a 0–5 score is a fixed gauge, not a line to the
 edge). Then read it as a hostile reviewer who has never seen it:
 
-- What can I **not** tell at a glance?
-- What do I have to **hunt** for?
+- What can **not** be told at a glance?
+- What must be **hunted** for?
 - What **looks the same** but means different things (colour collisions)?
 - Which element can't answer **"why this and not the alternative?"**
 

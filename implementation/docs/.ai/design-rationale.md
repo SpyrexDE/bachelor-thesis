@@ -218,6 +218,5 @@ artifact it judges*.
 - The artifact strip left ~half its card empty → the brief (must include / must
   avoid) now sits beside the thumbnails as the yardstick you judge them against.
 
-Method for all of this: `ui-method.md`. If you point at something not covered
-here, it means I have not made it deliberate yet — tell me and it gets a reason
-or a fix.
+Method for all of this: `ui-method.md`. Anything not covered here is not yet
+deliberate — it needs a reason or a fix.

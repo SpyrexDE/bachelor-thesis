@@ -40,7 +40,12 @@ def prepare_for_ocr(image: Image.Image) -> Image.Image:
 
 def ocr_text(image_path: Path) -> str:
     with Image.open(image_path) as image:
-        data = pytesseract.image_to_data(prepare_for_ocr(image), output_type=Output.DICT)
+        # psm 11 (sparse text): creative copy sits in separated blocks (headline,
+        # claim, brand), not one column. The default layout analysis drops isolated
+        # short lines, which would miss on-image prohibited wording (concept/03).
+        data = pytesseract.image_to_data(
+            prepare_for_ocr(image), output_type=Output.DICT, config="--psm 11"
+        )
     words = [
         text for text, conf in zip(data["text"], data["conf"])
         if text.strip() and float(conf) >= OCR_CONFIDENCE

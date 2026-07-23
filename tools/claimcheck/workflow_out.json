@@ -1,0 +1,445 @@
+{
+ "results": [
+  {
+   "i": 0,
+   "supported": "yes",
+   "quote": "we introduce MIMO (Mirror In the Model) , an agentic refinement framework for automatic ad banner generation",
+   "why": "This names MIMO as an actually-built agentic framework doing automatic ad banner generation, directly supporting the statement's claim that applied systems already produce banners automatically."
+  },
+  {
+   "i": 1,
+   "supported": "partial",
+   "quote": "",
+   "why": "The excerpts are mostly title/abstract fragments and bare bibliography entries; the one substantive sentence (\"Cooperative agents work together towards a shared goal...\") loosely echoes the coordination idea but never mentions splitting work into one producer per artifact or a critic mechanism."
+  },
+  {
+   "i": 2,
+   "supported": "yes",
+   "quote": "Despite the increasing adoption of MAS, their performance gains often remain minimal compared to single-agent frameworks",
+   "why": "This is the paper's explicit, direct claim that MAS performance gains over single-agent systems are often minimal, matching the statement's core point."
+  },
+  {
+   "i": 3,
+   "supported": "yes",
+   "quote": "the benefit of LLM-MAS over LLM-SAS increases with both task depth and width, and the effect is more pronounced with respect to depth",
+   "why": "This is the paper's core finding, directly supporting the statement's claim that whether multi-agent structure pays off depends on task depth."
+  },
+  {
+   "i": 4,
+   "supported": "yes",
+   "quote": "Empirically observed degradation under multi-agent coordination relative to single-agent baselines, reflecting how much the task’s structure penalizes inter-agent communication overhead.",
+   "why": "This passage ties minimal/negative MAS performance vs. single-agent baselines directly to task structure and inter-agent communication overhead, matching the statement's claims about minimal gains, coordination cost, and task-dependent tradeoffs."
+  },
+  {
+   "i": 5,
+   "supported": "yes",
+   "quote": "Ad Banner Image Generation via Reflective Multi-LLM and Multi-modal Agents",
+   "why": "This is the paper's own title, directly stating the system is a reflective multi-LLM and multimodal agent approach for generating ad banners."
+  },
+  {
+   "i": 6,
+   "supported": "yes",
+   "quote": "We propose DIVER, a novel multi-stage multiobjective optimization framework that generates diverse, high-quality ad headlines.",
+   "why": "This is the paper's own contribution statement directly tying a diversity-optimized framework to ad headline generation, matching the statement's specific claim about this source."
+  },
+  {
+   "i": 7,
+   "supported": "yes",
+   "quote": "We have shown the effectiveness of LMM iterative self-refinement in automatic image design and generation.",
+   "why": "This sentence directly states that iterative self-refinement is effective for (i.e., improves) automatic image design, matching the specific claim attributed to this source in the statement."
+  },
+  {
+   "i": 8,
+   "supported": "partial",
+   "quote": "we use each baseline to generate 100 image sets, where each set contains 5 images depicting a shared subject",
+   "why": "Excerpts confirm image sets sharing a subject, but describe evaluation via a human-rater user study (Mechanical Turk), not pairwise embedding similarity as the statement claims."
+  },
+  {
+   "i": 9,
+   "supported": "yes",
+   "quote": "We also design and validate a new set of metrics to evaluate the multimodal consistency and coherence in text-image plans.",
+   "why": "This abstract sentence is the paper's own statement that it studies/evaluates coherence (alongside consistency) in text-image plans, i.e. multimodal plan generation, matching the statement's second clause."
+  },
+  {
+   "i": 10,
+   "supported": "yes",
+   "quote": "This is the first survey dedicated to creativity in MAS.",
+   "why": "This sentence is the survey's own explicit self-description, directly establishing that this line of multi-agent generation work is centered on creativity rather than coordination/task granularity."
+  },
+  {
+   "i": 11,
+   "supported": "no",
+   "quote": "",
+   "why": "The excerpts show M-ASK is explicitly about coordination (role decoupling into Search/Knowledge agents, turn-level rewards) in agentic search, not a study of capability/creativity in generation architectures, and \"creativity\" never appears in the text."
+  },
+  {
+   "i": 12,
+   "supported": "yes",
+   "quote": "We split the rating of semantic consistency (SC) and perceptual quality (PQ) into multiple sub-scores",
+   "why": "The excerpt explicitly confirms VIEScore splits SC and PQ ratings into sub-scores, the core specific claim attributed to this source."
+  },
+  {
+   "i": 13,
+   "supported": "yes",
+   "quote": "To obtain a holistic and comprehensive evaluation of interleaved generation, we define five fine-grained evaluation aspects",
+   "why": "This passage is the paper's own definitional statement for InterleavedEval, matching \"holistic,\" \"interleaved,\" and the verb \"define/defines a...protocol\" framing used in the statement."
+  },
+  {
+   "i": 14,
+   "supported": "yes",
+   "quote": "perceptual rendered-text quality in generated images should be treated as a distinct evaluation problem rather than as a by-product of OCR correctness",
+   "why": "The paper's conclusion states perceptual rendered-text quality is a distinct evaluation problem separate from OCR correctness, directly supporting the thesis's claim and its choice to use OCR instead."
+  },
+  {
+   "i": 15,
+   "supported": "yes",
+   "quote": "discuss biases such as position bias, verbosity bias, and self-enhancement bias.",
+   "why": "This is the only span naming all three bias types the statement attributes to this source (position, verbosity, self-preference/self-enhancement) together."
+  },
+  {
+   "i": 16,
+   "supported": "yes",
+   "quote": "Pairwise preferences flip in about 35% of the cases, compared to only 9% for absolute scores",
+   "why": "This is the paper's core quantitative finding that pairwise (preference) judging flips far more often than pointwise (absolute score) judging, directly backing that clause of the statement."
+  },
+  {
+   "i": 17,
+   "supported": "partial",
+   "quote": "",
+   "why": "Excerpts confirm the paper compared five-point scoring against ranking and measured timing/agreement for both, but no excerpt states the actual finding that ranking was more consistent/faster or a recommendation to replace scales with ranking."
+  },
+  {
+   "i": 18,
+   "supported": "yes",
+   "quote": "Separate collection (Setup 2), however, decreases correlation between naturalness and quality, as well as naturalness and informativeness to very low levels",
+   "why": "This is RankME's own reported result that eliciting criteria separately (vs. together in one task) lowers inter-criteria correlation, directly backing the statement's claim about this source; the 0.78–0.96 photo-quality-assessment figure belongs to a different, uncited-here source and has no support in these excerpts."
+  },
+  {
+   "i": 19,
+   "supported": "yes",
+   "quote": "we compute the Spearman’s rank correlation coefficient (SRCC) between MOSs and attribute scores, as listed in Table 2",
+   "why": "This is the exact passage where SPAQ computes rank correlation (SRCC) between attribute scores and overall quality (MOS), which is the mechanism the statement cites, though the specific 0.78–0.96 values live in Table 2 itself, not the extracted text."
+  },
+  {
+   "i": 20,
+   "supported": "yes",
+   "quote": "This article is a survey of methods for measuring agreement among corpus annotators.",
+   "why": "Artstein & Poesio is cited for the \"inter-rater agreement statistics\" clause; this sentence is the paper's own summary of being exactly that (a survey of inter-annotator/inter-rater agreement measurement methods)."
+  },
+  {
+   "i": 21,
+   "supported": "yes",
+   "quote": "10/12 slices (83%) invert at least one pairwise rank relative to the three-run majority",
+   "why": "This is the paper's core empirical finding, directly matching the statement's claim that most slices invert at least one pairwise rank against a three-run majority."
+  },
+  {
+   "i": 22,
+   "supported": "yes",
+   "quote": "A proper evaluation and comparison between pipelines should thus account for the distributions of such metrics",
+   "why": "This is Bouthillier et al.'s explicit recommendation to report distributions rather than single-run point estimates, matching that specific clause of the statement."
+  },
+  {
+   "i": 23,
+   "supported": "yes",
+   "quote": "not all models give deterministic answers, even when setting temperature to zero with a fixed random seed",
+   "why": "This near-verbatim passage directly supports the statement's claim that measured run-to-run variation persists even at temperature zero."
+  },
+  {
+   "i": 24,
+   "supported": "yes",
+   "quote": "LLM-MA systems emphasize diverse agent profiles, inter-agent interactions, and collective decision-making processes.",
+   "why": "This sentence from the survey is the exact source of the quoted phrase the statement attributes to Guo et al."
+  },
+  {
+   "i": 25,
+   "supported": "yes",
+   "quote": "Regarding the Agent Profiling Methods , we categorized them into three types: Pre-defined, Model-Generated , and Data-Derived .",
+   "why": "This passage verbatim states Guo et al.'s exact three-type taxonomy of agent profiling methods, matching the statement's specific claim."
+  },
+  {
+   "i": 26,
+   "supported": "yes",
+   "quote": "Our framework characterizes collaboration along five key dimensions: actors, types, structures, strategies, and coordination mechanisms",
+   "why": "This sentence from Tran et al.'s own paper explicitly states their five-dimension framework (actors, types, structures, strategies, coordination), matching the statement's specific claim about this source."
+  },
+  {
+   "i": 27,
+   "supported": "yes",
+   "quote": "This paradigm is ideal for reaching a consensus or a more refined solution."
+  },
+  {
+   "i": 28,
+   "supported": "yes",
+   "quote": "2(b) shows four typical communication structures in LLM-MA systems.",
+   "why": "This is the source's direct statement that it identifies exactly four typical communication structures, the specific claim attributed to Guo et al. in the thesis statement."
+  },
+  {
+   "i": 29,
+   "supported": "yes",
+   "quote": "The centralized structure (also known as a star structure) is an implementation where every agent is connected to a central agent.",
+   "why": "This is Tran et al.'s own definition sentence for the centralized/star structure with a single connecting central agent, directly matching the statement's core claim."
+  },
+  {
+   "i": 30,
+   "supported": "yes",
+   "quote": "When agents in the system adhere to specific rules, for instance, expressing their opinions one by one in a sequential manner, downstream agents only need to focus on the outputs from upstream.",
+   "why": "This sentence is the source's own definition of the rule-following, sequential, downstream-attends-to-upstream mechanism the statement attributes to \"ordered cooperation.\""
+  },
+  {
+   "i": 31,
+   "supported": "yes",
+   "quote": "We summarize three aspects by the pipeline of reasoning, including: (i) multi-stage framework, (ii) collective decision-making framework, and (iii) selfrefine framework.",
+   "why": "The source explicitly names the same three pipeline patterns (multi-stage, collective decision-making, self-refine) the statement attributes to Chen et al."
+  },
+  {
+   "i": 32,
+   "supported": "yes",
+   "quote": "This is difficult for a single agent, but multiple agents working together will be well suited to this task",
+   "why": "This exact sentence from the Chen et al. survey is the \"default assumption\" the statement quotes verbatim and attributes to surveys."
+  },
+  {
+   "i": 33,
+   "supported": "yes",
+   "quote": "Despite enthusiasm for Multi-Agent LLM Systems (MAS), their performance gains on popular benchmarks are often minimal.",
+   "why": "This is the exact sentence the statement quotes verbatim (\"performance gains on popular benchmarks are often minimal\") as Cemri et al.'s core finding contradicting the survey's default assumption."
+  },
+  {
+   "i": 34,
+   "supported": "yes",
+   "quote": "We find that SAS consistently match or outperform MAS on multi-hop reasoning tasks when reasoning tokens are held constant.",
+   "why": "This verbatim sentence states the paper's core finding that single-agent systems match or outperform multi-agent systems on multi-hop reasoning when reasoning-token budgets are held equal, directly mirroring the statement's central claim."
+  },
+  {
+   "i": 35,
+   "supported": "yes",
+   "quote": "Orchestration matches or exceeds the strongest single model and consistently outperforms the others.",
+   "why": "This is the paper's headline finding (repeated verbatim in the excerpts) that four-frontier-model orchestration only ties/slightly exceeds the strongest single model, directly backing the statement's claim that orchestrating several frontier models does not significantly beat the strongest single model — though the excerpts contain nothing on reasoning-token budgets or test-time-compute accounting, so that part of the compound statement isn't attributable to this source."
+  },
+  {
+   "i": 36,
+   "supported": "yes",
+   "quote": "beyond a certain threshold, additional computing does not guarantee better results",
+   "why": "This is the exact source sentence the statement puts in quotation marks, directly supporting the cost-curve-saturation claim."
+  },
+  {
+   "i": 37,
+   "supported": "yes",
+   "quote": "the benefit of LLM-MAS over LLM-SAS increases with both task depth and width, and the effect is more pronounced with respect to depth",
+   "why": "This is the paper's central finding tying task-complexity dimensions (depth, width/capability-breadth) directly to when multi-agent systems actually outperform single-agent ones, i.e., where added agents help."
+  },
+  {
+   "i": 38,
+   "supported": "yes",
+   "quote": "a coordination yields diminishing returns once single-agent baselines exceed certain performance; (2) tool-heavy tasks appear to incur multi-agent overhead",
+   "why": "This is the paper's own pair of findings — diminishing returns once baseline capability is high, and tool-heavy tasks incurring multi-agent overhead — that jointly ground the statement's \"task complexity and capability saturation limit where added agents help\" claim attributable to this source (the separate \"AgentTaxo\" clause is not covered by these excerpts at all)."
+  },
+  {
+   "i": 39,
+   "supported": "yes",
+   "quote": "the performance advantage of an LLM-MAS over a single-agent baseline (LLM-SAS) grows with task complexity",
+   "why": "This is the only clause in the statement attributable to Tang et al. (the other clauses cite Guo et al./Xi et al. concepts absent from these excerpts), and the source explicitly frames LLM-SAS as the \"single-agent baseline\" against which LLM-MAS is compared."
+  },
+  {
+   "i": 40,
+   "supported": "yes",
+   "quote": "ranging from fully parallel and communicationfree (Independent) to fully coupled with peer consensus (Decentralized)",
+   "why": "Kim et al. define Independent MAS as fully parallel and communication-free, directly backing the statement's claim that Independent subtasks run in parallel with no coordination after the split."
+  },
+  {
+   "i": 41,
+   "supported": "partial",
+   "quote": "",
+   "why": "The excerpts show Guo et al. naming other communication-structure categories (a \"shared message pool\" and a \"layered\" structure) but never mention or define a \"centralized\" structure, so the specific claim attributed to Guo et al. (\"centralized structure in Guo et al.'s sense\") has no direct verbatim support in the given text."
+  },
+  {
+   "i": 42,
+   "supported": "no",
+   "quote": "",
+   "why": "Source_excerpts contain no text on multi-agent cooperation types (ordered/disordered cooperation) or evaluator-optimizer patterns — the specific Xi et al. taxonomy claim the statement makes."
+  },
+  {
+   "i": 43,
+   "supported": "yes",
+   "quote": "The cost of coordination can exceed the benefit of collaboration in performing complex tasks.",
+   "why": "This is the only passage in the excerpts stating the general coordination-cost-vs-collaboration-benefit trade-off that the thesis statement invokes to justify not splitting a shallow artifact further."
+  },
+  {
+   "i": 44,
+   "supported": "yes",
+   "quote": "This unnecessary decomposition generates substantial coordination messages on average for tasks requiring only a few execution steps, consuming token budget on coordination rather than reasoning.",
+   "why": "The diorite_wall example shows that decomposing a simple/shallow task into further subtasks (multiple producers) adds coordination overhead (messages, token budget) while most added steps are redundant, directly backing the claim that splitting a shallow artifact further adds coordination cost without quality gain."
+  },
+  {
+   "i": 45,
+   "supported": "yes",
+   "quote": "Regarding the Agent Profiling Methods , we categorized them into three types: Pre-defined, Model-Generated , and Data-Derived .",
+   "why": "This is the only passage defining Guo et al.'s profiling taxonomy, naming \"Pre-defined\" as one of the three method types the statement refers to."
+  },
+  {
+   "i": 46,
+   "supported": "yes",
+   "quote": "Introducing techniques like cross-validation [ 109 ] or timely external feedback could have a positive impact on the quality of agent outputs.",
+   "why": "This sentence is the direct source for Xi et al.'s recommendation of cross-validation and timely external feedback cited in the statement."
+  },
+  {
+   "i": 47,
+   "supported": "yes",
+   "quote": "comparisons between MAS and SAS are often confounded by differences in testtime computation"
+  },
+  {
+   "i": 48,
+   "supported": "yes",
+   "quote": "the benefit of LLM-MAS over LLM-SAS increases with both task depth and width, and the effect is more pronounced with respect to depth",
+   "why": "This is the paper's headline finding that MAS gains scale with task complexity and are more pronounced for depth than width, directly grounding the claim that MAS helps mainly on deep tasks (and thus offers little for a shallow, single-artifact task)."
+  },
+  {
+   "i": 49,
+   "supported": "yes",
+   "quote": "We identify a robust capability-saturation effect and additional patterns: (1) a coordination yields diminishing returns once single-agent baselines exceed certain performance",
+   "why": "This passage names the \"capability-saturation effect\" verbatim and states that coordination gains diminish once single-agent performance is already high, directly matching the statement's specific claim."
+  },
+  {
+   "i": 50,
+   "supported": "no",
+   "quote": "",
+   "why": "The excerpts only cover Self-Refine's abstract/method description and one example transcript; none discuss gains saturating across iterations or self-correction degrading output without ground truth."
+  },
+  {
+   "i": 51,
+   "supported": "yes",
+   "quote": "LLMs struggle to selfcorrect their responses without external feedback, and at times, their performance even degrades after self-correction.",
+   "why": "This is the paper's core finding that intrinsic self-correction (no external/ground-truth feedback) can degrade LLM output, directly matching that half of the statement's claim."
+  },
+  {
+   "i": 52,
+   "supported": "yes",
+   "quote": "10/12 slices (83%) invert at least one pairwise rank relative to the three-run majority",
+   "why": "This is the paper's own headline statistic (repeated verbatim twice in the excerpts) matching the statement's cited \"10 of 12 evaluation slices invert at least one pairwise rank against the three-run majority.\""
+  },
+  {
+   "i": 53,
+   "supported": "yes",
+   "quote": "computed across a single run of the two pipelines, but a better practice used in the deep-learning community is to average multiple seeds",
+   "why": "This passage directly contrasts single-run comparisons with the recommended practice of averaging multiple seeds, matching the statement's point that reported results should reflect a distribution rather than one seeded run."
+  },
+  {
+   "i": 54,
+   "supported": "yes",
+   "quote": "not all models give deterministic answers, even when setting temperature to zero with a fixed random seed",
+   "why": "This exact clause (appearing twice in the excerpts) is the paper's central empirical claim that directly backs the statement's point about measured non-determinism persisting at temperature zero."
+  },
+  {
+   "i": 55,
+   "supported": "yes",
+   "quote": "The AGENTTAXO framework [ 14 ] provided a taxonomy for dissecting token distribution in general LLM-MA systems, introducing the concept of a \"communication tax\" to describe the overhead from inter-agent interactions.",
+   "why": "This sentence explicitly attributes the \"communication tax\" concept for inter-agent overhead to the AgentTaxo framework [14], directly matching the statement's claim about its origin."
+  },
+  {
+   "i": 56,
+   "supported": "partial",
+   "quote": ""
+  },
+  {
+   "i": 57,
+   "supported": "no",
+   "quote": "",
+   "why": "The excerpts (Yan et al. 2025 survey) discuss \"communication overhead\" generically but never use the phrase \"communication tax,\" never mention AgentTaxo, and never discuss \"token\" costs specifically, so nothing here supports the claim about the tax framing's origin or reuse."
+  },
+  {
+   "i": 58,
+   "supported": "yes",
+   "quote": "GPT-4-vision-preview tends to be the second best MLLM in this context. It can understand every task instruction in VIES CORE and produce reasonable scores and rationale.",
+   "why": "This passage shows a vision-language model (MLLM, GPT-4-vision-preview) producing both scores and a rationale within VIEScore, directly matching the statement's claim about how the metric is scored."
+  },
+  {
+   "i": 59,
+   "supported": "yes",
+   "quote": "Mete-evaluation on evaluation metrics in terms of Spearman correlation between automatic evaluation results with human judgments.",
+   "why": "This table caption is the excerpt's only mention of Spearman correlation, directly supporting the statement's claim that the protocol was validated against human ratings via Spearman correlation."
+  },
+  {
+   "i": 60,
+   "supported": "yes",
+   "quote": "We split the rating of semantic consistency (SC) and perceptual quality (PQ) into multiple sub-scores",
+   "why": "This is VIEScore's own description of splitting its SC/PQ ratings into multiple sub-scores, directly matching the statement's specific claim."
+  },
+  {
+   "i": 61,
+   "supported": "partial",
+   "quote": "",
+   "why": "The excerpts show a pairwise-averaging pattern only for layout diversity (\"average displacement between corresponding points across each image pair\") and an image-vs-text average for prompt-alignment, but never describe subject/identity consistency itself being scored via pairwise image-image similarity."
+  },
+  {
+   "i": 62,
+   "supported": "yes",
+   "quote": "Pairwise preferences flip in about 35% of the cases, compared to only 9% for absolute scores",
+   "why": "This gives the exact flip-rate comparison (35% vs 9%) between pairwise (relative) and absolute (pointwise) scoring that the statement summarizes."
+  },
+  {
+   "i": 63,
+   "supported": "yes",
+   "quote": "discuss biases such as position bias, verbosity bias, and self-enhancement bias.",
+   "why": "This is the one passage in the excerpts that names all three bias types the statement attributes to this source (position, verbosity, self-preference/self-enhancement) as a set."
+  },
+  {
+   "i": 64,
+   "supported": "yes",
+   "quote": "Model Text Quality Perceptual Quality Image Coherence TIC Helpfulness AVG",
+   "why": "The results tables report scores per evaluation aspect (pillar) alongside an aggregated AVG column, matching the statement's \"aggregated score and per pillar\" framing."
+  },
+  {
+   "i": 65,
+   "supported": "no",
+   "quote": "",
+   "why": "source_excerpts contain only the title/abstract, intro opening, two isolated sentence fragments, and the bibliography — no methods/procedure text about block ordering, vote-then-score contamination, or elicitation order affecting criterion correlations."
+  },
+  {
+   "i": 66,
+   "supported": "partial",
+   "quote": "",
+   "why": "Excerpts describe the paper's three evaluation methods (five-point scales, sentence ranking, phrase ranking) and note timing/agreement were measured, but contain no passage stating ranking was found more reliable/faster or recommending replacement of scales with ranking."
+  },
+  {
+   "i": 67,
+   "supported": "yes",
+   "quote": "We measured the correlation of automatic evaluation metrics with human judgments.",
+   "why": "This Callison-Burch et al. 2007 (WMT) citation supports only the \"translation criteria\" clause of the compound statement; this sentence directly documents that correlation between attribute/metric scores and human judgment was measured for translation."
+  },
+  {
+   "i": 68,
+   "supported": "yes",
+   "quote": "we show that it is possible to evaluate NLG systems according to multiple, distinct criteria, which is important for error analysis",
+   "why": "The statement cites Novikova et al. 2018 (RankME) for the \"NLG criteria\" case of multi-criteria evaluation, and this is the paper's own explicit claim of having demonstrated exactly that."
+  },
+  {
+   "i": 69,
+   "supported": "partial",
+   "quote": "",
+   "why": "The excerpt confirms SRCC was computed between the five attribute scores and MOS (overall quality), but the specific 0.78–0.96 range is not present in these excerpts—it would be in Table 2, which was not extracted."
+  },
+  {
+   "i": 70,
+   "supported": "yes",
+   "quote": "The relevant notion of significance for agreement coefficients is therefore a confidence interval.",
+   "why": "This is the paper's direct statement tying confidence intervals to agreement coefficients, matching the statement's pairing of a CI with inter-rater agreement."
+  },
+  {
+   "i": 71,
+   "supported": "yes",
+   "quote": "This article is a survey of methods for measuring agreement among corpus annotators.",
+   "why": "This sentence frames the paper as exactly the kind of established methodological survey (on measuring rater/annotator agreement) that a protocol design would cite as guidance."
+  },
+  {
+   "i": 72,
+   "supported": "partial",
+   "quote": "the results indicate that while advanced models have achieved commendable overall performance, significant biases persist in certain specific tasks",
+   "why": "Excerpts confirm the paper documents judge biases generally (12 biases, biases persist) and show \"position\" bias by name, but never mention \"verbosity\" or \"self-preference\" bias, so only part of the specific three-item claim is directly evidenced."
+  },
+  {
+   "i": 73,
+   "supported": "yes",
+   "quote": "not all models give deterministic answers, even when setting temperature to zero with a fixed random seed",
+   "why": "The paper's core empirical claim is that models remain non-deterministic even with temperature=0 and a fixed seed, directly supporting that recorded seeds don't guarantee byte-for-byte reproducibility."
+  }
+ ]
+}

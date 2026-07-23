@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>claimcheck</title>
+<script>/* set the theme before the first paint (no flash) */
+  try { const t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
+<style>
+  /* ---- GitHub theme (ported from Fabian's Typora github.css / github-dark-default.css) ---- */
+  @font-face { font-family:"Open Sans"; font-style:normal; font-weight:400;
+    src:url("./vendor/fonts/open-sans-regular.woff2") format("woff2"); font-display:swap; }
+  @font-face { font-family:"Open Sans"; font-style:italic; font-weight:400;
+    src:url("./vendor/fonts/open-sans-italic.woff2") format("woff2"); font-display:swap; }
+  @font-face { font-family:"Open Sans"; font-style:normal; font-weight:700;
+    src:url("./vendor/fonts/open-sans-700.woff2") format("woff2"); font-display:swap; }
+  @font-face { font-family:"Open Sans"; font-style:italic; font-weight:700;
+    src:url("./vendor/fonts/open-sans-700italic.woff2") format("woff2"); font-display:swap; }
+
+  /* light = default; dark via system (prefers-color-scheme) OR toggle (data-theme) */
+  :root { color-scheme:light;
+    --bg:#ffffff; --chrome:#fafafa; --ink:#333333; --muted:#777777;
+    --line:#e1e4e8; --tline:#dfe2e5; --accent:#4183C4;
+    --code:#f3f4f4; --fence:#f8f8f8; --hborder:#eeeeee; --stripe:#f8f8f8;
+    --viewbg:#f6f8fa; --preborder:#e7eaed; --hr:#e7e7e7;
+    --claimbg:rgba(65,131,196,.07); --claimhover:rgba(65,131,196,.16); --claimul:rgba(65,131,196,.45);
+    --active:#fff3b0; --activeul:#d4a72c;
+    --pgshadow:0 1px 3px rgba(27,31,35,.12), 0 0 0 1px rgba(27,31,35,.06); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme]) { color-scheme:dark;
+    --bg:#0d1117; --chrome:#161b22; --ink:#c9d1d9; --muted:#8b949e;
+    --line:#30363d; --tline:#30363d; --accent:#58a6ff;
+    --code:#161b22; --fence:#161b22; --hborder:#21262d; --stripe:#161b22;
+    --viewbg:#010409; --preborder:#30363d; --hr:#30363d;
+    --claimbg:rgba(88,166,255,.12); --claimhover:rgba(88,166,255,.22); --claimul:rgba(88,166,255,.5);
+    --active:rgba(210,160,30,.34); --activeul:#9e6a00;
+    --pgshadow:0 0 0 1px rgba(240,246,252,.1); } }
+  :root[data-theme="dark"] { color-scheme:dark;
+    --bg:#0d1117; --chrome:#161b22; --ink:#c9d1d9; --muted:#8b949e;
+    --line:#30363d; --tline:#30363d; --accent:#58a6ff;
+    --code:#161b22; --fence:#161b22; --hborder:#21262d; --stripe:#161b22;
+    --viewbg:#010409; --preborder:#30363d; --hr:#30363d;
+    --claimbg:rgba(88,166,255,.12); --claimhover:rgba(88,166,255,.22); --claimul:rgba(88,166,255,.5);
+    --active:rgba(210,160,30,.34); --activeul:#9e6a00;
+    --pgshadow:0 0 0 1px rgba(240,246,252,.1); }
+
+  * { box-sizing:border-box; }
+  html,body { height:100%; margin:0; }
+  html { font-size:16px; -webkit-font-smoothing:antialiased; }
+  body { display:flex; background:var(--bg); color:var(--ink);
+         font:15px/1.6 "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif; }
+
+  /* ---- left: document switcher (paper PDF + concept .md) ---- */
+  #left { width:48%; min-width:400px; display:flex; flex-direction:column; border-right:1px solid var(--line); }
+  #docbar { display:flex; gap:2px; padding:8px 12px 0; background:var(--chrome);
+            border-bottom:1px solid var(--line); overflow-x:auto; white-space:nowrap; }
+  #docbar button { border:none; background:none; color:var(--muted); font:13px/1 "Open Sans",sans-serif;
+                   cursor:pointer; padding:8px 12px; border-bottom:2px solid transparent; border-radius:6px 6px 0 0; }
+  #docbar button:hover { color:var(--ink); }
+  #docbar button.on { color:var(--ink); font-weight:700; border-bottom-color:var(--accent); }
+  #docview { flex:1; overflow:auto; position:relative; background:var(--bg); }
+  #paperframe { width:100%; height:100%; border:0; display:none; background:#fff; }
+
+  /* concept Markdown, github style */
+  #md { display:none; max-width:860px; margin:0 auto; padding:24px 34px 90px;
+        font-size:16px; line-height:1.6; color:var(--ink); }
+  #md h1,#md h2,#md h3,#md h4,#md h5,#md h6 { font-weight:700; line-height:1.25; margin:1.1rem 0 .9rem; }
+  #md h1 { font-size:2em; padding-bottom:.3em; border-bottom:1px solid var(--hborder); }
+  #md h2 { font-size:1.6em; padding-bottom:.3em; border-bottom:1px solid var(--hborder); }
+  #md h3 { font-size:1.35em; } #md h4 { font-size:1.15em; }
+  #md h5 { font-size:1em; } #md h6 { font-size:1em; color:var(--muted); }
+  #md p { margin:0 0 .9em; } #md li { margin:.25em 0; }
+  #md ul,#md ol { margin:0 0 .9em; padding-left:2em; }
+  #md blockquote { margin:0 0 .9em; padding:0 1em; border-left:4px solid var(--tline); color:var(--muted); }
+  #md code { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:.9em;
+             background:var(--code); padding:2px 5px; border-radius:3px; }
+  #md pre { background:var(--fence); border:1px solid var(--preborder); padding:12px; border-radius:6px;
+            overflow-x:auto; font-size:13px; margin:0 0 .9em; }
+  #md pre code { background:none; padding:0; }
+  #md table { border-collapse:collapse; width:100%; margin:0 0 1em; font-size:15px; }
+  #md th,#md td { border:1px solid var(--tline); padding:6px 13px; text-align:left; vertical-align:top; }
+  #md th { font-weight:700; background:var(--fence); }
+  #md tr:nth-child(2n) td { background:var(--stripe); }
+  #md hr { height:2px; background:var(--hr); border:0; margin:20px 0; }
+  #md .mermaid-note { color:var(--muted); font-style:italic; font-size:14px; background:var(--fence);
+                      border:1px solid var(--preborder); padding:8px 12px; border-radius:6px; margin:0 0 .9em; }
+
+  /* supported CLAIM = marked + clickable; the style honestly shows whether it is linked:
+     linked = solid underlay (passage linked by hand) · unlinked = dashed (opens source without a highlight)
+     external = dotted + ↗ (opens externally) · active = yellow (currently open) */
+  #md .claim { cursor:pointer; padding:0 1px; border-radius:2px;
+               border-bottom:1px solid transparent; transition:background .1s ease; }
+  #md .claim[data-status="linked"]   { background:var(--claimbg); border-bottom-color:var(--claimul); }
+  #md .claim[data-status="quoted"]   { background:var(--claimbg); border-bottom-color:var(--claimul); }
+  #md .claim[data-status="unlinked"] { border-bottom:1px dashed var(--muted); }
+  #md .claim[data-status="external"] { border-bottom:1px dotted var(--accent); }
+  #md .claim[data-status="external"]::after { content:"\2197"; font-size:.72em; color:var(--accent);
+                                              vertical-align:super; margin-left:1px; }
+  #md .claim:hover { background:var(--claimhover); }
+  #md .claim.active { background:var(--active) !important; border-bottom-color:var(--activeul); }
+  #md .cite { color:var(--muted); font-size:.85em; white-space:nowrap; }
+  #md .cite a.cite-src { color:var(--muted); text-decoration:none; border-bottom:1px dotted currentColor; cursor:pointer; }
+  #md .cite a.cite-src:hover { color:var(--accent); }
+  #md .cite a.cite-src.active { color:var(--accent); background:var(--active); }
+  #md .doclink { color:var(--accent); cursor:pointer; text-decoration:none; }
+  #md .doclink:hover { text-decoration:underline; }
+  #md .math { font-style:italic; }
+
+  /* ---- right: source viewer ---- */
+  #right { flex:1; display:flex; flex-direction:column; background:var(--chrome); min-width:0; }
+  #bar { display:flex; gap:12px; align-items:center; padding:8px 16px; background:var(--bg);
+         border-bottom:1px solid var(--line); font-size:13px; color:var(--muted); }
+  #src { color:var(--ink); font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  #zoom { display:none; gap:2px; margin-left:auto; }
+  #zoom button, #themebtn { border:1px solid var(--line); background:var(--bg); color:var(--ink);
+                            border-radius:5px; cursor:pointer; line-height:1; }
+  #zoom button { width:24px; height:22px; font-size:13px; }
+  #zoom button:hover, #themebtn:hover { background:var(--fence); }
+  #themebtn { width:26px; height:22px; font-size:13px; margin-left:8px; flex:none; }
+  #pageind { font-variant-numeric:tabular-nums; min-width:74px; text-align:right; }
+  #bar.hasdoc #zoom { display:inline-flex; }
+  #bar:not(.hasdoc) #pageind { margin-left:auto; }
+  #ext { color:var(--accent); text-decoration:none; display:none; }
+  #ext:hover { text-decoration:underline; }
+  #view { flex:1; overflow:auto; position:relative; background:var(--viewbg); }
+  #empty { position:absolute; inset:0; display:flex; flex-direction:column; gap:16px;
+           align-items:center; justify-content:center; text-align:center; padding:0 40px; }
+  .srcquote { max-width:640px; margin:0; text-align:left; border-left:4px solid var(--accent);
+              padding:6px 0 6px 18px; font-size:16px; line-height:1.6; color:var(--ink); }
+  .extnote { color:var(--muted); font-size:14px; }
+  .extlink { color:var(--accent); text-decoration:none; font-size:14px; }
+  .extlink:hover { text-decoration:underline; }
+  #stage { padding:18px 0 60px; display:flex; flex-direction:column; align-items:center; }
+  .pg { position:relative; background:#fff; box-shadow:var(--pgshadow); }
+  .pg canvas { display:block; position:absolute; inset:0; }
+  .ov { position:absolute; inset:0; pointer-events:none; z-index:1; }
+  .hl { position:absolute; background:rgba(255,222,60,.45); border-radius:2px;
+        outline:1px solid rgba(210,160,20,.85); }
+</style>
+</head>
+<body>
+  <div id="left">
+    <div id="docbar"></div>
+    <div id="docview">
+      <iframe id="paperframe" title="Paper"></iframe>
+      <div id="md"></div>
+    </div>
+  </div>
+  <div id="right">
+    <div id="bar"><span id="src"></span><a id="ext" target="_blank" rel="noopener">open in browser ↗</a>
+      <span id="zoom"><button data-z="-1" title="smaller (−)">−</button><button data-z="0" title="fit width (0)">⊡</button><button data-z="1" title="larger (+)">+</button></span>
+      <span id="pageind"></span><button id="themebtn" title="Dark mode">☾</button></div>
+    <div id="view">
+      <div id="empty"></div>
+      <div id="stage"></div>
+    </div>
+  </div>
+
+<script type="module">
+import { SOURCES } from "./claims.js?v=9";
+import { CONCEPT_DOCS } from "./concept.gen.js?v=9";
+import * as pdfjs from "./vendor/pdf.min.mjs";
+pdfjs.GlobalWorkerOptions.workerSrc = "./vendor/pdf.worker.min.mjs";
+
+const $ = id => document.getElementById(id);
+const alnum = s => (s || "").toLowerCase().replace(/[^a-z0-9]/g, "");
+const mul = (m, n) => [ m[0]*n[0]+m[2]*n[1], m[1]*n[0]+m[3]*n[1],
+                        m[0]*n[2]+m[2]*n[3], m[1]*n[2]+m[3]*n[3],
+                        m[0]*n[4]+m[2]*n[5]+m[4], m[1]*n[4]+m[3]*n[5]+m[5] ];
+
+/* ---------- theme: system default, the toggle remembers an explicit choice ---------- */
+const mq = matchMedia("(prefers-color-scheme: dark)");
+const effTheme = () => localStorage.getItem("theme") || (mq.matches ? "dark" : "light");
+function applyTheme() {
+  const t = localStorage.getItem("theme");
+  if (t) document.documentElement.dataset.theme = t; else delete document.documentElement.dataset.theme;
+  const dark = effTheme() === "dark";
+  $("themebtn").textContent = dark ? "☀" : "☾";
+  $("themebtn").title = dark ? "Light mode" : "Dark mode";
+}
+$("themebtn").addEventListener("click", () => {
+  localStorage.setItem("theme", effTheme() === "dark" ? "light" : "dark"); applyTheme();
+});
+mq.addEventListener("change", () => { if (!localStorage.getItem("theme")) applyTheme(); });
+applyTheme();
+
+/* ---------- left: document switcher ---------- */
+const DOCS = [{ id: "__paper__", title: "Paper (PDF)" },
+  ...CONCEPT_DOCS.map(d => ({ id: d.id, title: d.title.replace(/readme/i, "Overview") }))];
+const bycid = Object.fromEntries(CONCEPT_DOCS.map(d => [d.id, d]));
+let curDoc = null;
+
+function selectDoc(id) {
+  curDoc = id;
+  $("docbar").querySelectorAll("button").forEach(b => b.classList.toggle("on", b.dataset.id === id));
+  if (id === "__paper__") {
+    $("md").style.display = "none";
+    const f = $("paperframe"); if (!f.src) f.src = "paper.pdf"; f.style.display = "block";
+  } else {
+    $("paperframe").style.display = "none"; $("md").style.display = "block";
+    $("md").innerHTML = bycid[id].html; $("docview").scrollTop = 0;
+    $("md").querySelectorAll(".claim, .cite-src").forEach(el => el.addEventListener("click", ev => {
+      ev.preventDefault(); ev.stopPropagation();
+      $("md").querySelectorAll(".claim.active, .cite-src.active").forEach(x => x.classList.remove("active"));
+      el.classList.add("active");
+      const key = el.dataset.src;
+      if (el.dataset.quote) showQuote(key, el.dataset.quote);
+      else openSource(key, el.dataset.needle).catch(e => $("src").textContent = "Error: " + e.message);
+    }));
+    $("md").querySelectorAll(".doclink").forEach(el => el.addEventListener("click", ev => {
+      ev.preventDefault(); if (bycid[el.dataset.doc]) selectDoc(el.dataset.doc);
+    }));
+  }
+}
+$("docbar").innerHTML = DOCS.map(d => `<button data-id="${d.id}">${d.title}</button>`).join("");
+$("docbar").querySelectorAll("button").forEach(b => b.addEventListener("click", () => selectDoc(b.dataset.id)));
+selectDoc(CONCEPT_DOCS.find(d => /topolog/.test(d.id))?.id || CONCEPT_DOCS[0].id);
+
+/* ---------- right side: full PDF viewer ---------- */
+const docCache = new Map(), textCache = new Map();
+let cur = null;
+const io = new IntersectionObserver(entries => {
+  for (const e of entries) if (e.isIntersecting) renderPage(+e.target.dataset.p);
+}, { root: $("view"), rootMargin: "700px 0px" });
+
+const esc = s => (s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+// external source with a stored quote: show the supporting text directly on the right (no link path)
+function showQuote(key, quote) {
+  const src = SOURCES[key];
+  $("src").textContent = src.label;
+  const ext = $("ext"); ext.style.display = src.url ? "inline" : "none"; if (src.url) ext.href = src.url;
+  cur = null; $("stage").innerHTML = ""; $("pageind").textContent = "";
+  $("bar").classList.remove("hasdoc");
+  $("empty").innerHTML = `<blockquote class="srcquote">${esc(quote)}</blockquote>`
+    + (src.url ? `<a class="extlink" href="${src.url}" target="_blank" rel="noopener">${esc(src.label)} open ↗</a>` : "");
+  $("empty").style.display = "flex";
+}
+
+let zoomMul = 1;
+async function openSource(key, needle, keepScale) {
+  const src = SOURCES[key];
+  $("src").textContent = src.label;
+  const ext = $("ext");
+  ext.style.display = src.url ? "inline" : "none";
+  if (src.url) ext.href = src.url;
+  if (!src.pdf) {                                    // external source WITHOUT text: honestly say why, no popup
+    cur = null; $("stage").innerHTML = ""; $("pageind").textContent = "";
+    $("bar").classList.remove("hasdoc");
+    const why = /openreview/.test(src.url || "") ? "no verifiable quote (OpenReview bot wall)"
+              : /books\.google/.test(src.url || "") ? "no verifiable quote (print book)"
+              : "no verifiable quote on file";
+    $("empty").innerHTML = `<div class="extnote">${why}</div><a class="extlink" href="${src.url}" target="_blank" rel="noopener">${esc(src.label)} open ↗</a>`;
+    $("empty").style.display = "flex";
+    return;
+  }
+  $("empty").style.display = "none"; $("empty").innerHTML = "";
+  $("bar").classList.add("hasdoc");
+
+  if (cur?.key !== key || !keepScale) {
+    $("pageind").textContent = "loading …";
+    if (!docCache.has(key)) docCache.set(key, await pdfjs.getDocument(src.pdf).promise);
+    const doc = docCache.get(key);
+    const first = await doc.getPage(1);
+    const fit = Math.max(500, $("view").clientWidth - 44) / first.getViewport({ scale: 1 }).width;
+    const scale = Math.max(0.4, Math.min(3, fit * zoomMul));
+    cur = { key, doc, scale, rendered: new Map(), pages: [] };
+    $("stage").innerHTML = "";
+    io.disconnect();
+    const baseVp = first.getViewport({ scale });
+    for (let p = 1; p <= doc.numPages; p++) {
+      const div = document.createElement("div");
+      div.className = "pg"; div.dataset.p = p;
+      div.style.width = baseVp.width + "px"; div.style.height = baseVp.height + "px";
+      const ov = document.createElement("div"); ov.className = "ov";
+      div.appendChild(ov); $("stage").appendChild(div);
+      cur.pages[p] = { div, ov, vp: null };
+      io.observe(div);
+    }
+  }
+  updateInd();
+  if (needle) await jumpTo(needle); else $("view").scrollTop = 0;
+}
+
+async function renderPage(p) {
+  if (!cur || cur.rendered.has(p)) return;
+  cur.rendered.set(p, true);
+  const page = await cur.doc.getPage(p);
+  const vp = page.getViewport({ scale: cur.scale });
+  const entry = cur.pages[p]; entry.vp = vp;
+  entry.div.style.width = vp.width + "px"; entry.div.style.height = vp.height + "px";
+  const dpr = window.devicePixelRatio || 1;
+  const canvas = document.createElement("canvas");
+  canvas.width = vp.width * dpr; canvas.height = vp.height * dpr;
+  canvas.style.width = vp.width + "px"; canvas.style.height = vp.height + "px";
+  entry.div.insertBefore(canvas, entry.ov);
+  page.render({ canvasContext: canvas.getContext("2d"), viewport: vp, transform: [dpr, 0, 0, dpr, 0, 0] })
+      .promise.catch(() => {});
+  if (cur.rendered.size > 14) {
+    let far = null, dist = -1;
+    for (const q of cur.rendered.keys()) { const d = Math.abs(q - p); if (d > dist) { dist = d; far = q; } }
+    if (far !== null && far !== p) { cur.pages[far].div.querySelector("canvas")?.remove(); cur.rendered.delete(far); }
+  }
+}
+
+async function pageTexts() {
+  const key = cur.key;
+  if (!textCache.has(key)) {
+    const arr = [null];
+    for (let p = 1; p <= cur.doc.numPages; p++) {
+      const tc = await (await cur.doc.getPage(p)).getTextContent();
+      arr.push({ tc, flat: alnum(tc.items.map(i => i.str).join("")) });
+    }
+    textCache.set(key, arr);
+  }
+  return textCache.get(key);
+}
+
+async function jumpTo(rawNeedle) {
+  const needle = alnum(rawNeedle);
+  const texts = await pageTexts();
+  let p = texts.findIndex(t => t && t.flat.includes(needle));
+  if (p < 1) { $("pageind").textContent += " · passage not found"; return; }
+  document.querySelectorAll(".hl").forEach(h => h.remove());
+  const entry = cur.pages[p];
+  entry.div.scrollIntoView({ block: "start" });
+  await renderPage(p);
+  const page = await cur.doc.getPage(p);
+  const vp = page.getViewport({ scale: cur.scale });
+  const { tc } = texts[p];
+  let concat = "", map = [];
+  tc.items.forEach((it, idx) => { for (const ch of alnum(it.str)) { concat += ch; map.push(idx); } });
+  const at = concat.indexOf(needle);
+  let first = null;
+  if (at >= 0) for (const idx of new Set(map.slice(at, at + needle.length))) {
+    const it = tc.items[idx];
+    const t = mul(vp.transform, it.transform);
+    const h = Math.hypot(t[2], t[3]) || 10;
+    const box = document.createElement("div"); box.className = "hl";
+    box.style.left = t[4] + "px"; box.style.top = (t[5] - h) + "px";
+    box.style.width = Math.max((it.width || 0) * cur.scale, 6) + "px";
+    box.style.height = (h * 1.2) + "px";
+    entry.ov.appendChild(box); first ||= box;
+  }
+  updateInd();
+  (first || entry.div).scrollIntoView({ block: "center", behavior: "smooth" });
+}
+
+let shownPage = 1;
+function updateInd() {
+  if (!cur) return;
+  const vMid = $("view").scrollTop + $("view").clientHeight / 3;
+  let shown = 1;
+  for (let p = 1; p < cur.pages.length; p++)
+    if (cur.pages[p].div.offsetTop <= vMid) shown = p; else break;
+  shownPage = shown;
+  $("pageind").textContent = `p. ${shown} / ${cur.doc.numPages}`;
+}
+$("view").addEventListener("scroll", () => requestAnimationFrame(updateInd));
+
+async function setZoom(z) {
+  if (!cur) return;
+  zoomMul = z === 0 ? 1 : Math.max(0.5, Math.min(2.5, zoomMul * (z > 0 ? 1.2 : 1 / 1.2)));
+  const key = cur.key, page = shownPage;
+  await openSource(key, null, false);
+  cur.pages[page]?.div.scrollIntoView({ block: "start" });
+}
+$("zoom").querySelectorAll("button").forEach(b => b.addEventListener("click", () => setZoom(+b.dataset.z)));
+$("view").addEventListener("wheel", e => {
+  if (!(e.ctrlKey || e.metaKey) || !cur) return;
+  e.preventDefault(); setZoom(e.deltaY < 0 ? 1 : -1);
+}, { passive: false });
+</script>
+</body>
+</html>

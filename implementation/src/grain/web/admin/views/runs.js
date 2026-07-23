@@ -8,7 +8,7 @@ import {
   confirmDialog, copyMini, curveLegend, outputBlock, promptBlock, qClass, rampColor, skeleton, withTooltip,
 } from "/ui.js";
 
-const ROLE_ICONS = { orchestrator: "compass", producer: "edit", critic: "check-square", image: "image" };
+const ROLE_ICONS = { director: "compass", producer: "edit", critic: "check-square", image: "image" };
 const PLATFORM_ORDER = Object.keys(PLATFORM_LABELS);
 // Canvas sizes are fixed per platform (concept/02); the stage sizes each
 // column by this ratio so one shared height fits every frame to its artifact.

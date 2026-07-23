@@ -14,8 +14,8 @@ class MockProvider:
     name = "mock"
 
     def chat(self, request: ChatRequest) -> ChatResponse:
-        if request.role == "orchestrator":
-            text = agents.orchestrate(request.prompt, request.seed)
+        if request.role == "director":
+            text = agents.direct(request.prompt, request.seed)
         elif request.role == "producer":
             text = agents.produce(request.prompt, request.seed)
         elif request.role == "critic":

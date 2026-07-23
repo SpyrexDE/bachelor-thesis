@@ -21,12 +21,12 @@ def record(trace, *, agent, duration, parents=(), purpose="production"):
 
 
 def test_latency_is_the_longest_path_not_the_sum():
-    # Coarse-shaped graph: orchestrator (2s), three parallel producers
+    # Coarse-shaped graph: director (2s), three parallel producers
     # (3s/5s/4s), one image call each (1s), critic over all images (2s).
     trace = Trace()
-    orchestrator = record(trace, agent="orchestrator", duration=2.0, purpose="coordination")
+    director = record(trace, agent="director", duration=2.0, purpose="coordination")
     producers = [
-        record(trace, agent=f"producer:{i}", duration=d, parents=(orchestrator,))
+        record(trace, agent=f"producer:{i}", duration=d, parents=(director,))
         for i, d in enumerate((3.0, 5.0, 4.0))
     ]
     images = [
@@ -38,9 +38,9 @@ def test_latency_is_the_longest_path_not_the_sum():
 
     calls = [{**c, "parents": json.dumps(c["parents"])} for c in trace.as_rows()]
     result = run_latency(calls)
-    # Critical path: orchestrator -> slowest producer -> its image -> critic.
+    # Critical path: director -> slowest producer -> its image -> critic.
     assert result["value"] == pytest.approx(2.0 + 5.0 + 1.0 + 2.0)
-    assert result["critical_path"] == [orchestrator, producers[1], images[1], critic]
+    assert result["critical_path"] == [director, producers[1], images[1], critic]
 
 
 def test_parallel_calls_share_the_timeline():

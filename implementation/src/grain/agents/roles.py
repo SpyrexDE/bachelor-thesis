@@ -1,4 +1,4 @@
-"""The agent roles (concept/01): orchestrator, producer, critic.
+"""The agent roles (concept/01): creative director, producer, critic.
 
 An agent here is a model client plus role instructions plus an output parser —
 nothing else. Agents are identical in every topology; what differs per topology
@@ -15,13 +15,13 @@ from grain.domain.platforms import PLATFORMS, PlatformSpec
 from grain.providers.base import ChatRequest, ChatResponse, Provider, parse_json_block
 from grain.topologies.prompts import (
     critic_prompt,
+    director_prompt,
     monolithic_prompt,
-    orchestrator_prompt,
     producer_prompt,
 )
 
 
-class OrchestratorAgent:
+class CreativeDirectorAgent:
     """Turns the brief into the one shared creative concept (Coarse, Fine)."""
 
     def __init__(self, provider: Provider):
@@ -29,7 +29,7 @@ class OrchestratorAgent:
 
     def emit_concept(self, brief: Brief, seed: int) -> tuple[SharedConcept, ChatResponse]:
         response = self.provider.chat(ChatRequest(
-            prompt=orchestrator_prompt(brief), role="orchestrator", seed=seed,
+            prompt=director_prompt(brief), role="director", seed=seed,
         ))
         return SharedConcept(response.text), response
 

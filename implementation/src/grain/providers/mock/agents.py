@@ -1,9 +1,9 @@
-"""Mock orchestrator, producer, and critic.
+"""Mock creative director, producer, and critic.
 
 Each behaviour reads only its prompt (and attached images) and derives every
 choice from its call seed. The probabilities below apply identically in every
 topology; coherence differences must emerge from what a call can see
-(docs/decisions.md D5).
+(docs/.ai/decisions.md D5).
 """
 
 import json
@@ -80,7 +80,7 @@ def drifted_choice(choice: dict, brand: str, rng: Random) -> dict:
     return drifted
 
 
-def orchestrate(prompt: str, seed: int) -> str:
+def direct(prompt: str, seed: int) -> str:
     rng = Random(seed)
     brief_text = section(prompt, "brief")
     fields = read_brief_fields(brief_text)

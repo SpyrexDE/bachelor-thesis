@@ -25,7 +25,7 @@ MONOLITHIC_TASK = (
     "layout). Respect the platform limits and the brief's mandatories."
 )
 
-ORCHESTRATOR_TASK = (
+DIRECTOR_TASK = (
     "Turn the brief into one platform-agnostic shared creative concept: the "
     "single idea the whole set is built on. Respond as fenced JSON with "
     '"angle", "angle_direction", "palette" (name and two hex colors), "motif", '
@@ -82,11 +82,11 @@ def monolithic_prompt(brief: Brief) -> str:
     return "\n\n".join(parts)
 
 
-def orchestrator_prompt(brief: Brief) -> str:
+def director_prompt(brief: Brief) -> str:
     return "\n\n".join([
-        "You are the campaign orchestrator.",
+        "You are the campaign's creative director.",
         "## Brief\n" + brief.as_text(),
-        "## Task\n" + ORCHESTRATOR_TASK,
+        "## Task\n" + DIRECTOR_TASK,
     ])
 
 

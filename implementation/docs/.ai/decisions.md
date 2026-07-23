@@ -77,3 +77,43 @@ fixes the decomposition skeleton, counts every token by hand (coordination tax),
 and needs byte-level reproducibility from recorded seeds — a framework runtime
 would own exactly those things. Verified by the smoke run: the refactor changed
 no metric value.
+
+## D14 — 2026-07-22 — The full test suite runs in the container
+The dev image (Dockerfile `dev` target) adds pytest; `docker-compose.dev.yml` mounts
+`tests/` and names the image `grain-dev` so it can't collide with the lean reference
+image. A bare host has no tesseract, so OCR cases skip silently — which hid a real
+spec failure until the suite ran where tesseract lives. Forecloses poetry-on-host as
+the documented test path.
+
+## D15 — 2026-07-22 — OCR reads with tesseract PSM 11 (sparse text)
+Spec compliance (concept/03) OCRs on-image copy. Copy sits in separated blocks
+(headline, claim, brand); the default PSM 3 (full-page layout) dropped isolated short
+lines, so prohibited wording rendered on the image went unread — a false-negative
+violation. PSM 11 (sparse text) reads every block; matching logic is unchanged.
+Verified by the now-passing prohibited-wording test.
+
+## D16 — 2026-07-22 — Spec-compliance OCR has a small-text recall floor (accepted)
+OCR (PSM 11, D15) can miss a short line in the small claim/kicker font — below roughly
+ten characters at 45px it falls under tesseract's detection floor and goes unread.
+Accepted, because no artifact the mock produces lands there: required claims are the
+full brief phrase, and a prohibited slip (`PROHIBITED_SLIP`, `providers/mock/agents.py`)
+renders as the kicker "Practically {word}." — 18–24 characters across the briefs, all
+caught (verified). The floor is only reachable by a bare short phrase the producer never
+emits. Revisit when a real image provider replaces the mock.
+
+## D17 — 2026-07-22 — Fast_A2A_app is the playground integration layer
+Henkel builds agents on `fast_a2a_app` (PyPI; author Georg Boegerl, the Henkel
+supervisor), and he directed its use. Verified: it is A2A-protocol plumbing plus a
+chat UI — a Starlette sub-app mounted into an existing FastAPI app, wrapping an
+async callable; no orchestration runtime, no injected personas — so D12 stands and
+the experiment core stays framework-free. Integration shape: mount alongside the
+existing app when the playground phase starts (with the Azure provider); the core
+is not touched. Python compatible (it needs >=3.12; grain is >=3.12,<3.16, image
+3.14). Forecloses: hand-rolling `a2a-sdk` integration. Not yet implemented.
+
+## D18 — 2026-07-23 — Henkel target environment stays unnamed
+The internal product name of Henkel's deployment environment is unverified
+("playground" was a guess). Docs, comments, and UI say "deployed at Henkel" /
+"the Henkel deployment"; no platform name is claimed. Earlier entries keep
+their historical wording. Forecloses: naming the platform without
+verification.

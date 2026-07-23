@@ -1,5 +1,5 @@
 // Inline SVG icons, Feather-style: 24px viewBox, 2px stroke, currentColor.
-// Every icon marks an action, a state, or an object type (docs/conventions.md).
+// Every icon marks an action, a state, or an object type (docs/.ai/conventions.md).
 
 const SVG = "http://www.w3.org/2000/svg";
 

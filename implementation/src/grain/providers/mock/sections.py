@@ -3,7 +3,7 @@
 The mock acts only on the prompt text (and attached images), never on side
 channels. Prompts are structured with '## ' headers (topologies/prompts.py), so
 the mock parses those sections; whatever a topology leaves out of the prompt is
-genuinely invisible to the mock (docs/decisions.md D5).
+genuinely invisible to the mock (docs/.ai/decisions.md D5).
 """
 
 import re

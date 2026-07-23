@@ -1,5 +1,9 @@
 # Conventions
 
+> **Audience: coding agents.** This file — like everything under `docs/.ai/` —
+> is working documentation for the AI sessions that write this code. The
+> human-facing docs live one level up in `docs/`.
+
 Binding for every change in `implementation/`, whoever (or whatever) writes it.
 The goal: code a human examiner can read, verify against `concept/`, and defend.
 
@@ -7,8 +11,8 @@ The goal: code a human examiner can read, verify against `concept/`, and defend.
 
 - `concept/` is the spec and is read-only from here. When code implements a rule
   from the concept (a formula, a protocol step, an invariant), the comment names the
-  source, e.g. `# min over pillars: concept/03, set coherence`. No other comment
-  category is welcome by default.
+  source, e.g. `# min over pillars: concept/03, set coherence`. (Other inline
+  comments follow the why-not-what rule under Code below.)
 - Concept invariants are pinned in `tests/test_concept_invariants.py`. Changing a
   pinned behaviour means the concept changed first — never the other way around.
 - Open points the concept assigns to the implementation phase (in-loop proxy, judge
@@ -18,9 +22,10 @@ The goal: code a human examiner can read, verify against `concept/`, and defend.
 
 - Plain Python, stdlib first. A new dependency needs a reason an examiner would
   accept; today's full list: fastapi, uvicorn, pillow, pytesseract, pyyaml (+ pytest,
-  httpx for dev).
+  httpx2 for dev).
 - Modules follow the domain, not patterns: no `utils.py`, `helpers.py`, `base.py`,
-  `manager`/`service` names. A helper earns extraction on its second caller.
+  `manager`/`service` names. Extract a shared helper only once a second caller
+  exists; until then the code stays inline at its single call site.
 - Abstraction only at the two real seams (provider, store). Everything else is a
   function. No class where a function does.
 - Comments explain *why* or cite the concept; never *what*. No section banners, no
@@ -28,7 +33,10 @@ The goal: code a human examiner can read, verify against `concept/`, and defend.
 - Errors: raise early, no blanket `except`, no log-and-continue. If a run fails, the
   run row says so and the trace holds the error.
 - Naming uses the concept's vocabulary verbatim: topology, brief, rep, producer,
-  orchestrator, critic, pillar, anchor, scramble, step. No synonyms, no invented jargon.
+  creative director, critic, pillar, anchor, scramble, step. No synonyms, no invented jargon.
+- Henkel's target environment carries no product name here — its internal name is
+  unverified. Write "deployed at Henkel" / "the Henkel deployment"; never a
+  guessed platform name (D18).
 - Type hints on module-level functions; no `TypeVar`/`Protocol` gymnastics beyond the
   provider seam.
 - Determinism: anything seeded derives from the run seed via `harness/seeds.py`.
@@ -61,6 +69,5 @@ The goal: code a human examiner can read, verify against `concept/`, and defend.
 
 ## Docs
 
-- `docs/status.md` is updated whenever the working state changes; `docs/decisions.md`
-  gets a dated entry when a choice locks. Both stay terse — bullet points, no prose
-  padding, no restating the concept.
+- `decisions.md` (in this directory) gets a dated entry when a choice locks. It
+  stays terse — bullet points, no prose padding, no restating the concept.

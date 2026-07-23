@@ -10,6 +10,12 @@
       ],
       "port": 8602,
       "autoPort": true
+    },
+    {
+      "name": "claimcheck",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["tools/claimcheck/serve.py"],
+      "port": 8771
     }
   ]
 }

@@ -2,8 +2,8 @@
 
 Runs the experiment defined in [`../concept/`](../concept/): 3 briefs x 4 topologies x 3 reps,
 five machine metrics, two human evaluation tasks, and the analysis that answers the RQ.
-The concept files are normative. Code follows them; where they conflict, the concept wins.
-Nothing in here may edit `concept/`.
+The concept is the specification; this code implements it and is checked against it
+([`tests/test_concept_invariants.py`](tests/test_concept_invariants.py)).
 
 Model calls go through a provider interface. The only provider today is a deterministic
 mock, so everything runs end-to-end without API keys. Mock output demonstrates the
@@ -11,30 +11,44 @@ pipeline mechanics, not findings.
 
 ## Run it
 
-Docker (the reference setup — code baked into the image, as on the playground):
+Everything runs in the container. The image carries tesseract (OCR for spec
+compliance), so the whole test suite runs in one place with nothing silently
+skipped — and there is no second local environment to keep in sync.
+
+Reference setup (code baked into the image, as when deployed):
 
 ```sh
 docker compose up --build        # http://localhost:8000
 ```
 
-Docker dev mode (source mounted live, auto-reload; no local Python needed):
+Dev mode (source mounted live, uvicorn auto-reloads on edits):
 
 ```sh
-docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build
+docker compose -f docker-compose.yml -f docker-compose.dev.yml up
 ```
 
-Local development:
+Tests (full suite, tesseract present):
 
 ```sh
-poetry install
-poetry run uvicorn --factory grain.api.app:create_app --reload   # http://localhost:8000
-poetry run pytest
+docker compose -f docker-compose.yml -f docker-compose.dev.yml run --rm grain pytest
 ```
 
 - `/` — researcher UI: start and manage runs, inspect artifacts, metrics, review results, analysis.
 - `/review` — rater UI: A/B votes and rubric ratings, entered via a session code.
 
 Data (SQLite + artifact files) lives in `./data`, configurable via `GRAIN_DATA_DIR`.
+
+## Documentation
+
+| Doc | Answers |
+|---|---|
+| [docs/design.md](docs/design.md) | Why it is built this way — scope, non-goals, owned trade-offs. |
+| [docs/architecture.md](docs/architecture.md) | How it works — pipeline, execution model, seams, HTTP surface, configuration. |
+| [docs/how-to.md](docs/how-to.md) | Common tasks — run, test, review rounds, reset, add a provider. |
+
+`docs/.ai/` holds working documentation for the coding agents that build this
+(conventions, decision log, UI method); it is not part of the documentation
+above.
 
 ## Layout
 
@@ -52,4 +66,4 @@ Data (SQLite + artifact files) lives in `./data`, configurable via `GRAIN_DATA_D
 | `src/grain/web/` | Static frontend (vanilla HTML/CSS/JS): `admin/`, `review/`. |
 | `briefs/` | The three brief fixtures (illustrative, not official Henkel copy). |
 | `tests/` | Pytest suite, including the concept-invariant tests. |
-| `docs/` | [architecture](docs/architecture.md), [conventions](docs/conventions.md), [decisions](docs/decisions.md), [design-rationale](docs/design-rationale.md), [ui-method](docs/ui-method.md). |
+| `docs/` | [design](docs/design.md), [architecture](docs/architecture.md), [how-to](docs/how-to.md); agent working docs under `docs/.ai/`. |

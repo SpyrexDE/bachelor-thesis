@@ -1,5 +1,5 @@
 """Pins the rules the concept fixes. A failing test here means the code drifted
-from concept/; the fix is never to change the expectation (docs/conventions.md)."""
+from concept/; the fix is never to change the expectation (docs/.ai/conventions.md)."""
 
 import json
 from pathlib import Path

@@ -1,5 +1,5 @@
 """Background execution: one worker thread, job and run rows as the interface
-the UI polls (docs/decisions.md D7)."""
+the UI polls (docs/.ai/decisions.md D7)."""
 
 import json
 import queue

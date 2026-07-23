@@ -1,5 +1,5 @@
 """Independent: parallelization in its sectioning variant (concept/01) — each
-producer works from the brief alone; no orchestrator, no contact, nothing
+producer works from the brief alone; no director, no contact, nothing
 aligns their three readings of the same brief."""
 
 from grain.domain.platforms import PLATFORMS

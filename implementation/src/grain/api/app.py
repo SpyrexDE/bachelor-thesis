@@ -51,7 +51,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     @app.middleware("http")
     async def fresh_ui_assets(request: Request, call_next):
         # UI files are tiny and change during development; proxies in front of
-        # the app (dev pane, playground ingress) must never serve stale modules.
+        # the app (dev pane, deployment ingress) must never serve stale modules.
         response = await call_next(request)
         if request.url.path.endswith((".js", ".css", ".html")) or request.url.path in ("/", "/review/"):
             response.headers["Cache-Control"] = "no-store"

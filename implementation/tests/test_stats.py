@@ -1,4 +1,4 @@
-"""Hand-worked examples pin the hand-rolled statistics (docs/decisions.md D9)."""
+"""Hand-worked examples pin the hand-rolled statistics (docs/.ai/decisions.md D9)."""
 
 import pytest
 

@@ -1,100 +1,144 @@
 # Architecture
 
-One Python package (`grain`), one FastAPI process, one SQLite database, artifacts as
-files on disk. No queue, no ORM, no build step. The system has two halves: the
-**harness** (execute runs, record traces, compute metrics) and the **evaluation
-platform** (human review tasks, analysis, the two UIs).
+One Python package (`grain`), one FastAPI process, one SQLite database,
+artifacts as files on disk. No queue, no ORM, no build step. Two halves live in
+that process: the **harness** (execute runs, record traces, compute metrics)
+and the **evaluation platform** (human review, analysis, the two UIs).
 
-## Design vocabulary
+## Run pipeline
 
-The agent-system design follows Dibia, *Designing Multi-Agent Systems* (O'Reilly;
-companion code `picoagents`), which is also the pattern canon the concept cites
-via Anthropic 2024. The mapping:
-
-| Here | Book concept |
-|---|---|
-| `agents/roles.py` — a role = model client + instructions + output parser | Agent (model + instructions + interface) |
-| `agents/messages.py` — typed messages between roles | Typed messages through workflows |
-| `topologies/` — wiring only; roles are identical everywhere | Workflow patterns: single agent, parallelization (sectioning), orchestrator-workers, evaluator-optimizer |
-| `topologies/stopping.py` — Fine's stopping rule | Termination conditions |
-| `providers/` | Model clients (`llm/`) |
-| `harness/trace.py` — per-call telemetry (tokens, seeds, timing, parents) | Observability / tracing |
-| `metrics/` — VLM judges + code checks | Evaluation: LLM-as-judge + reference-based validation |
-| `web/admin` | Web UI over the agent runtime |
-
-Deliberately not adopted: an agent framework or runtime (middleware, memory,
-LLM-driven orchestration). The study fixes the decomposition skeleton
-(concept/01) and needs exact token accounting and seed-level reproducibility;
-a framework would blur both (decisions.md D12). The topologies are workflow
-patterns by design — the one autonomous element is Fine's critic loop, and its
-termination rule is pinned in code and tests.
-
-## Data flow
-
-```
-brief fixture ──> topology executor ──> trace + artifact files ──> metrics ──> analysis
-                     (provider calls)         (store)                            │
-review plan ──> rater sessions ──> votes + ratings ──> agreement stats ──────────┘
+```mermaid
+flowchart LR
+    B[brief fixture] --> X[topology executor]
+    X -->|model calls| P[provider]
+    X --> T[trace]
+    X --> A[artifact files]
+    T --> M[metrics]
+    A --> M
+    M --> N[analysis]
+    R[review plan] --> S[rater sessions]
+    S --> V[votes + ratings]
+    V --> G[agreement stats]
+    G --> N
 ```
 
-- A **run** is one `(brief, topology, rep)` execution with a recorded seed
-  (concept/02). The executor walks the topology, logs every provider call
-  (role, seed, tokens, timestamps) into the trace, and writes artifacts to disk.
-- **Metrics** are computed right after a run finishes and stored as rows; nothing is
-  recomputed on page load.
-- The **review plan** materialises the A/B pairs and rubric assignments from
-  concept/03 (between-topology pairs, within-topology controls, anchors, scrambles)
-  into review sets and sessions. Raters work through a session via a code; they never
-  see topology labels.
-- **Analysis** aggregates stored metric rows and review results into the shapes of
-  concept/04: per-topology distributions, per-step effect sizes, the Pareto view,
-  the round curve.
+- A **run** is one `(brief, topology, rep)` execution with a recorded seed. The
+  executor walks the topology's fixed graph, logs every provider call into the
+  trace (role, purpose, seed, tokens, duration, parent calls), and writes the
+  artifact images to disk.
+- **Metrics** are computed right after a run finishes and stored as rows;
+  nothing is recomputed on page load.
+- The **review plan** materialises the concept's A/B pairs and rubric
+  assignments (between-topology pairs, within-topology controls, anchors,
+  scrambles) into sets and sessions. Raters work through a session via a code
+  and never see topology labels.
+- **Analysis** aggregates stored metric rows and review results: per-topology
+  distributions, per-step effect sizes, the Pareto view, the revision-round
+  curve.
 
-## Boundaries and seams
+## Trace and latency
 
-Two seams exist because the deployment target (Henkel AI playground, Docker) will
-swap them; nothing else is abstracted.
+The trace is the run's telemetry: one record per provider call. Its timeline is
+**virtual** — a call starts when the calls it depends on have finished, and its
+duration places it on that timeline (`harness/trace.py`). Real providers report
+measured durations; the mock reports simulated ones of plausible magnitude. The
+timeline therefore reflects the topology's true structure (independent
+producers overlap, revision rounds chain) regardless of host scheduling.
 
-- **Provider** (`providers/`): every model call — text, image, VIEScore judge,
-  coherence judge — goes through the `Provider` protocol. Today only `MockProvider`
-  implements it. A real provider (Azure) is a new module registered in
-  `providers/registry.py`; selected via `GRAIN_PROVIDER`.
-- **Store** (`store/`): plain SQL behind small functions. Porting to the playground's
-  database means porting this package only.
-
-Everything else is direct calls. Topology executors are plain functions sharing the
-prompt definitions in `topologies/prompts.py`; the fair-comparison rules from
-concept/01 (same producer prompt everywhere, concept slot absent in Independent,
-Monolithic = combined Independent variant) live there and are pinned by tests.
+Latency is read off this timeline as the **critical path** over the call graph
+— not harness wall clock, which would be meaningless for millisecond mock runs
+and scheduling-dependent for real ones. Raw wall clock is recorded alongside as
+a sanity check.
 
 ## Execution model
 
-Runs are executed by a background thread inside the API process, one batch job at a
-time, with per-run status rows the UI polls. Mock runs take milliseconds; real
-providers later just make the same job slower. The queue lives in memory, so at
-startup every run or job still marked queued/running belonged to a dead process
-and is swept to `failed` (`harness/jobs.py`); a re-run with the same seed
-reproduces the run byte-for-byte under the mock.
+Run batches execute on a single background thread inside the API process, one
+batch job at a time. Progress lives in job and run rows that the UI polls; the
+queue itself is in memory. At startup, any run or job still marked
+queued/running belonged to a dead process and is swept to `failed`
+(`harness/jobs.py`). Everything seeded derives from the run seed
+(`harness/seeds.py`), so a re-run with the same seed reproduces the run
+byte-for-byte under the mock.
 
-Latency (concept/03) is not measured as harness wall clock: it is the critical path
-over the trace's call graph, so parallel producer calls count once. Call timestamps
-are real; under the mock, each call also carries a simulated duration that stands in
-for realistic API time (see decisions.md D4).
+## Seams
 
-## Deployment
+Exactly two abstraction seams exist, because the Henkel deployment will swap
+both. Everything else is direct function calls.
 
-- **Local dev**: `poetry run uvicorn grain.api.app:app --reload`; data in `./data`.
-- **Docker** (reference): `docker compose up --build`; image installs tesseract and
-  fonts, data volume-mounted at `/data`.
-- **Henkel playground** (later): same image contract — configuration only via
-  `GRAIN_*` environment variables, `/health` endpoint, single exposed port, no
-  external assets at runtime. Swapping mock for Azure and SQLite for the platform
-  database touches `providers/` and `store/` only.
+```mermaid
+flowchart TB
+    subgraph proc [one FastAPI process]
+        API[API + static UIs] --> W[worker thread]
+    end
+    W --> PS[provider seam]
+    API --> SS[store seam]
+    W --> SS
+    PS -. today .-> MK[mock provider]
+    PS -. deployed .-> AZ[Azure provider]
+    SS -. today .-> SQ[SQLite + files]
+    SS -. deployed .-> PD[Henkel database]
+```
+
+- **Provider** (`providers/`): every model call — text, image, VIEScore judge,
+  coherence judge — goes through the `Provider` protocol (`providers/base.py`).
+  Today only the mock implements it. A real provider is one new module plus one
+  entry in `providers/registry.py`, selected via `GRAIN_PROVIDER`.
+- **Store** (`store/`): plain SQL behind small functions. Porting to Henkel's
+  database means porting this package only.
+
+Topology executors are plain functions sharing the prompt definitions in
+`topologies/prompts.py`; the concept's fair-comparison rules (same producer
+prompt everywhere, no concept slot in Independent, Monolithic as the combined
+single-call variant) live there and are pinned by tests.
+
+## HTTP surface
+
+FastAPI serves the API and both static UIs from one port. The interactive
+OpenAPI pages are disabled; this table is the reference.
+
+| Area | Endpoints | Gated |
+|---|---|---|
+| Console pages | `GET /` (researcher UI), `GET /review/?code=…` (rater UI), `GET /health` | no |
+| Runs | `GET /api/briefs` · `GET /api/matrix` · `POST /api/runs` (202, starts a batch) · `GET /api/runs` · `GET/DELETE /api/runs/{id}` · `POST /api/runs/{id}/rerun` · `POST /api/runs/{id}/recompute` · `GET /api/artifacts/{run}/{platform}/{round}` · `GET /api/jobs` | yes |
+| Review admin | `POST/GET/DELETE /api/review/plan` · `GET /api/review/sets` (+ set images) · `POST/GET /api/review/sessions` · `DELETE /api/review/sessions/{id}` · `GET /api/review/results` | yes |
+| Rater session | `GET /api/review/session/{code}` · `POST …/vote` · `DELETE …/vote/{pair}` · `POST …/rating` · `GET …/image/…` · `GET …/brief-image/…` | never |
+| Analysis | `GET /api/analysis/machine` · `GET /api/analysis/pareto` · `GET /api/analysis/rounds` | yes |
+
+"Gated" applies only when `GRAIN_ADMIN_TOKEN` is set: a middleware then
+requires the token (header `X-Admin-Token`, or a cookie for image tags) on
+everything under `/api` except the rater-session endpoints. The console prompts
+for the token once. This exists to protect blinding — raters and the
+researcher share one host, and without the gate a rater could open the
+researcher API and see topology labels.
+
+## Storage
+
+`GRAIN_DATA_DIR` (default `./data`, `/data` in the container) holds the SQLite
+database and one directory of artifact files per run. The directory is the
+whole persistent state: back it up by copying it, reset the system by deleting
+it.
 
 ## Configuration
 
-`grain/config.py` reads `GRAIN_*` env vars once at startup: `GRAIN_DATA_DIR`
-(default `./data`), `GRAIN_BRIEFS_DIR`, `GRAIN_PROVIDER` (default `mock`), and
-`GRAIN_ADMIN_TOKEN` (unset = open console; set it whenever raters get a link,
-D13). Port and host belong to the uvicorn command line / Dockerfile. No config
+Read once at startup from environment variables (`grain/config.py`). No config
 files.
+
+| Variable | Default | Meaning |
+|---|---|---|
+| `GRAIN_DATA_DIR` | `./data` | SQLite + artifact files |
+| `GRAIN_BRIEFS_DIR` | `./briefs` | Brief fixtures (YAML) |
+| `GRAIN_PROVIDER` | `mock` | Provider registry key |
+| `GRAIN_ADMIN_TOKEN` | unset | When set, gates researcher endpoints (see above). Set it before sending raters a link; unset is fine for local work. |
+
+Port and host belong to the uvicorn command line / Dockerfile.
+
+## Deployment
+
+- **Dev**: `docker compose -f docker-compose.yml -f docker-compose.dev.yml up`
+  — source mounted, auto-reload; the test suite runs in the same image.
+- **Reference**: `docker compose up --build` — code baked into the image, as it
+  would run deployed. The image installs tesseract (spec-compliance
+  OCR) and DejaVu fonts (deterministic text rendering); Python 3.14.
+- **Henkel** (planned): same image contract — env-only
+  configuration, `/health`, one exposed port, no external assets at runtime.
+  The A2A layer ([design](design.md)) mounts next to the existing routes.
